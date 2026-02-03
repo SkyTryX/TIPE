@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1768921589.76754 "/home/dorian/Documents/School/Prepa/TIPE/MCOT/mcot.tex" "mcot.pdf" "mcot" 1768921590.48755 0
-  "/home/dorian/Documents/School/Prepa/TIPE/MCOT/mcot.tex" 1768921589.46037 6343 6a3a2364b80603686aeb416c988c8b3c ""
+["pdflatex"] 1769287261.1115 "/home/dorian/Documents/School/Prepa/TIPE/MCOT/mcot.tex" "mcot.pdf" "mcot" 1769287261.91807 0
+  "/home/dorian/Documents/School/Prepa/TIPE/MCOT/mcot.tex" 1769287260.67232 6807 263a547532c14c807c882e492dbd0916 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
@@ -28,8 +28,8 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1752162640 5523539 cbe340ff87ac4cfddcdc6361a84e52ac ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1752162748 3604909 76315c4aad85d1f43d1d3cb83380097e ""
   "/usr/local/texlive/2025/texmf.cnf" 1752162626.34851 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "mcot.aux" 1768921590.40634 937 0747ac8fd47e8b7dd93c6cf954d75419 "pdflatex"
-  "mcot.tex" 1768921589.46037 6343 6a3a2364b80603686aeb416c988c8b3c ""
+  "mcot.aux" 1769287261.81533 937 0747ac8fd47e8b7dd93c6cf954d75419 "pdflatex"
+  "mcot.tex" 1769287260.67232 6807 263a547532c14c807c882e492dbd0916 ""
   (generated)
   "mcot.aux"
   "mcot.log"

@@ -32,45 +32,46 @@
 \end{enumerate}
 
 \section{Bibliographie commentée (493/650 mots)}
-Dans un premier temps, on souhaite étudier la satisfiabilité de formules logiques dans le contexte de la logique propositionnelle. 
-Des théorèmes connus montrent que ce problème est NP-complet [1], c'est ainsi que la 
-question de la satisfiabilité en temps polynomial est devenue une question à un million de dollars.
-Donc une grande problématique dans le domaine de la logique (en outre la logique propositionnelle) est la
-recherche d'un algorithme permettant de résoudre le problème de satisfiabilité (SAT) en temps polynomial. La
-résolution de ce colossal problème impliquerait en effet P = NP [3]. Différents algorithmes ont été imaginés pour 
-résoudre ce problème en temps exponentiel en la taille de la formule étudiée. Nous nous intéressons notamment un de ces
-algorithme :la méthode des tableaux.
 
-Dans le cadre de notre étude, cette méthode consiste à construire un arbre avec la formule à la racine, et à 
-utiliser des règles pour développer ou créer des branches. On regarde ensuite s'il y a des contradictions dans 
-toutes les branches. Si c'est le cas, la formule est insatisfaisable.
+Le theorème de Cook nous indique que le problème de décision de la satisfiabilité d'une formule est NP-complet, c'est ainsi que la question de la 
+satisfiabilité en temps polynomial est devenue question à un million de dollars, la résolution de ce colossal problème impliquerait en effet P = NP.  
+Donc une grande problématique dans le domaine de la logique est la recherche d'un algorithme permettant de résoudre le problème de satisfiabilité en 
+temps polynomial.
 
-Or, il semblerait que la méthode des tableaux soit plus utilisée en logique linéaire temporelle [4], dans le cadre de 
-la vérification de modèle, en particulier dans un algorithme de vérification automatique en logique linéaire temporelle [6].
-La logique linéaire temporelle est une logique propositionnelle à laquelle on rajoute des opérateurs temporels, ainsi les variables peuvent
-avoir des valeurs de vérité qui dépendent du temps, représenté par une suite infinie d'évaluations de vérité des variables. 
-La vérification de modèle est un problème dans lequel on souhaite vérifier si le modèle d'un système satisfait une propriété.
-La méthode des tableaux est utile dans le cadre d'une méthode utilisant les automates de Büchi pour créer un modèle de notre système
-ainsi que des formules logiques modélisant les propriétés que notre modèle doit vérifier. Nous ferons abstraction des algorithmes
-derrière et nous admettrons dans le cadre de ce TIPE que la méthode des tableaux est grandement utilisée dans le cadre de la vérification 
-de modèle. [5]
+Ainsi, dans le cadre de la logique propositionnelle, la méthode des tableaux consiste à construire un  arbre avec la formule à la racine, et à utiliser 
+des règles pour développer ou créer des branches. On regarde ensuite s'il y a des contradictions/cycles dans toutes les branches. Si c'est le cas, la 
+formule est insatisfaisable. La méthode des tableaux résout le problème SAT en temps exponentiel en la taille de la formule étudiée. Au délà de la 
+résolution de P=NP, trouver des optimisations permet in fine de résoudre en temps raisonnable d'autres problèmes pouvant se réduire à une recherche 
+de satisfaibilité ou d'accélerer la preuve automatique de certaines familles de formules logiques.
 
-C'est ainsi que, dans un monde toujours plus dépendant des différentes technologies dont la création repose sur des algorithmes, on souhaite 
-vérifier le bon fonctionnement de nos programmes informatiques par rapport aux cahiers des charges associés à un produit.
-Nous étudierons ainsi l'application de la méthode des tableaux dans ce cadre en utilisant une implémentation OCaml de la 
-méthode des tableaux dans la logique linéaire temporelle. Nous utiliserons ce que nous avons appris pour résoudre un exemple concret
-en lien avec la vérification de modèle.
+Néanmoins, ces problèmes se transfèrent sur d'autres types de logiques, en particulier la logique linéaire temporelle, qui est une logique dans laquelle
+on rajoute une notion de temporalité representé de manière discrète par une suite infinie d'évaluations de vérité des variables. Ainsi les variables 
+peuvent être valuer differement dans le temps. La méthode des tableaux est un algorithme qui est particulièrement utilisé dans la logique linéaire 
+temporelle dans le cadre de la vérification de modèle.
+
+La vérification de modèle est un problème dans lequel on souhaite vérifier si le modèle d'un système satisfait une propriété. Il existe des algorithmes 
+résolvant ce problème dans le cadre la logique temporelle. Un de ces algorithmes de vérification automatique en logique linéaire temporelle utilise
+la méthode des tableaux.
+
+C'est ainsi que, dans un monde toujours plus dépendant des différentes technologies dont la création repose sur des algorithmes, on souhaite vérifier le
+bon fonctionnement de nos programmes informatiques par rapport aux cahiers des charges associés à un produit. La vérification de modèle et les différents
+algorithmes qu'elle offre permet de répondre à ce problème. D'où l'enjeux majeur de la méthode des tableaux dans le cadre de la logique linéaire temporelle.
+
+Naturellement, comme tout modèle voulant representé la realité, nous pouvons nous interogger sur la manière dont on doit procéder, pour ainsi après 
+utilisation d'un algorithme de vérification de modèle prouvé rigoureusement le bon fonctionnement de notre système.
 
 \section{Problématique retenue}
-Comment utiliser la méthode des tableaux pour la résolution du problème SAT et de la vérification de modèle ?
+Comment utiliser la méthode des tableaux pour la résolution du problème de décision de la satisfiabilité d'une formule logique et de la vérification de modèle ?
 
 \section{Objectifs du TIPE}
 Les objectifs du TIPE sont d'étudier les différentes utilisations de la méthode des tableaux dans différentes logiques. Nous nous intéresserons en particulier :
-\begin{itemize}
-    \item À la logique propositionnelle avec une étude de la satisfiabilité d'une famille de formules.
-    \item À la logique linéaire temporelle avec l'étude d'une formule logique modélisant le fonctionnement attendu d'un objet technologique.
-\end{itemize}
 
+Premièrement, dans la logique propositionnelle avec une implémentation personelle de la méthode des tableaux avec en particulier une étude de la satisfiabilité d'une 
+famille de formules, dont on implémentera l'algorithme suivant la méthode des tableaux qui résout la satisfiabilité en temps optimisé.
+
+Deuxièmement, dans la logique linéaire temporelle avec l'étude d'une formule logique modélisant le fonctionnement attendu d'un objet technologique, on
+soulignera en particulier les hypothèses faites pendant la modélisation et l'intérêt de la méthode des tableaux après cette phase de modélisation, en utilisant
+une implémentation de celle ci.
 
 \section{Liste de références bibliographiques} 
 \begin{enumerate} 

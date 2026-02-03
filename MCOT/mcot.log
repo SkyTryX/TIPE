@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.10)  20 JAN 2026 16:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.10)  24 JAN 2026 21:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -138,15 +138,15 @@ L3 programming layer <2025-06-30>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1534 strings out of 467822
- 25065 string characters out of 5432409
+ 1532 strings out of 467822
+ 25049 string characters out of 5432409
  443652 words of memory out of 5000000
- 30207 multiletter control sequences out of 15000+600000
+ 30205 multiletter control sequences out of 15000+600000
  628805 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,8n,65p,450b,244s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on mcot.pdf (2 pages, 92780 bytes).
+Output written on mcot.pdf (2 pages, 93017 bytes).
 PDF statistics:
  46 PDF objects out of 1000 (max. 8388607)
  27 compressed objects within 1 object stream
