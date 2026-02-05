@@ -57,25 +57,22 @@
 \section*{Etude d'un algorithme de vérification de modèle en Logique Linéaire Temporelle}
 
 Dans un monde dont la dépendance à divers technologies est très importante, il est important de s'assurer du bon fonctionnement de ces technologies.
-C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces problèmatiques. Ce sont des techniques de vérifications qui explorent tout les 
-états possible d'un système de manière force brute. Nous allons donc étudier une famille d'algorithme permettant de résoudre de tel problème.
+C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces problèmatiques. Ce sont des techniques automatiques qui étant donné un 
+modèle à nombre d'état fini d'un système et des propriétés formelles, vérifie systématiquement si ces propriétés restent vrai pour ce modèle.
+Nous allons donc étudier un algorithme proposé par Rob Gerth, Doron Peled, Moshe Ya'akov Vardi, Pierre Wolper en 1995.
 
-
-
-
-
+La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
 
 \section{Préliminaires}
+    Nous allons pour l'instant introduire des concepts hors programme MPI afin de mener à bien notre étude.
 
 \subsection{Logique Linéaire Temporelle}
-
+    On modélise les différentes contraintes auxquels notre système doivent obéir par des formules logiques "dépendant du temps" d'où:
     \begin{definition}[Formule de la LTL]
         On définit les opérateurs suivants:
             \begin{itemize}
                 \item $X\phi$ : $\phi$ doit être satisfaite dans l'état suivant (neXt)
                 \item $\psi U\phi$ : $\psi$ doit être satisfaite dans tous les états jusqu'à un état où $\phi$ est satisfait (Until)
-                \item $F\phi$ : $\phi$ doit être satisfaite une fois plus tard (Finally)
-                \item $G\phi$ : $\psi$ doit être satisfaite dans tous les états futurs (Globally)
             \end{itemize}
         On définit $F$ l'ensemble des formules de la LTL inductivement par:
         \begin{itemize}
@@ -97,104 +94,11 @@ C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces 
             \item $\omega \models f\lor g$ si $\omega \models f$ ou $\omega \models g$
             \item $\omega \models \textbf{X}f$ si $\omega^1 \models f$
             \item $\omega \models f\textbf{U}g$ si $\omega \models g$ ou $\omega \models f\land\textbf{X}(f\textbf{U}g)$
-            \item $\omega \models \textbf{F}f$ si $\exists i, \omega^i \models f$
-            \item $\omega \models \textbf{G}f$ si $\forall i, \omega^i \models f$
         \end{itemize}
     \end{definition}
-
-
-
-
-
-\subsection{Méthode des tableaux}
-
-    \begin{definition}[Méthode des tableaux]
-        Algorithme pour prouver qu'une assertion $\phi$ ayant pour hypothèse $(H_n)$ soit satisfiable. En bref:
-        \begin{itemize}
-        \item On place $\phi$ et ses hypothèses dans la racine.
-        \item On applique des règles $(R_x)$ à chaque formule en bout d'arbre qui sont developpables
-        \item Si on trouve des contradictions (des \textit{cycles}) dans toutes les branches de l'arbre (branches fermées), l'arbre est fermé donc la formule est insatisfiable.
-        \end{itemize}
-    \end{definition}
-
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\phi\lor\psi$}
-        child {node {$\phi$}}
-        child {node {$\psi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot(\phi\land\psi)$}
-        child {node {$\lnot\phi$}}
-        child {node {$\lnot\psi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot\lnot\phi$}
-        child {node {$\phi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[level distance=8mm]
-    \node {$\phi\land\psi$}
-        child {node {$\phi, \psi$}};
-    \end{tikzpicture}  
-    \begin{tikzpicture}[level distance=8mm,scale=0.75]
-    \node {$\lnot(\phi\lor\psi)$}
-        child {node {$\lnot\phi, \lnot\psi$}};
-   \end{tikzpicture}
-
-    On définit deux nouvelles règles pour la méthode des tableaux en LTL:
-    
-    \begin{tikzpicture}[scale=0.75, level 1/.style={sibling distance=3cm}]
-    \node {$\phi\textbf{U}\psi$}
-        child {node {$\psi$}}
-        child {node {$\phi, \textbf{X}(\phi\textbf{U}\psi)$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\textbf{F}\phi$}
-        child {node {$\phi$}}
-        child {node {$\textbf{XF}\phi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node{$\textbf{G}\phi$}
-        child {node {$\phi, \textbf{XG}\phi$}};
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=0.75, level 1/.style={sibling distance=3cm}]
-    \node {$\lnot(\phi\textbf{U}\psi)$}
-        child {node {$\lnot\psi, \lnot\phi$}}
-        child {node {$\lnot\psi, \textbf{X}\lnot(\phi\textbf{U}\psi)$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot(\textbf{F}\phi)$}
-        child {node {$\lnot\phi, \textbf{X}\lnot\textbf{F}\phi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot(\textbf{G}\phi)$}
-        child {node {$\lnot\phi$}}
-        child {node {$\textbf{X}\lnot\textbf{G}\phi$}};
-    \end{tikzpicture}
-
-    En plus on rajoute des règles supplémentaires:  On appelle \textbf{X-eventualite} les formules de la forme $\textbf{X}(a\textbf{U}b)$ et $\textbf{XF}b$   
-    On notera $x\leq y$ si $y$ est descendant de $x$ (resp < pour descendant strict)
-
-    \begin{itemize}
-        \item \textbf{LOOP:} Si un noeud $v$ a un ancètre strict $u$ tq $\Gamma_v \subseteq \Gamma_u$ et pour chaque $\textbf{X}(a\textbf{U}b)$ ou  $\textbf{XF}b$ dans $\Gamma_u$, il existe un noeud $w$ tq $b\in\Gamma_w$ et $u < w \leq v$ alors la formule de départ est satisfiable.
-        \item \textbf{PRUNE:} Si $u < v < w$ et ont les mêmes hypothèses $\Gamma$ et que pour chaque $\textbf{X}(a\textbf{U}b)$ ou $\textbf{XF}b$ dans $\Gamma$, si on a $x$ tq $b\in\Gamma_x$ et $v < x \leq w$ alors $\exists y, b\in\Gamma_y$ et $u < y \leq v$ et $w$ ferme sa branche.
-        \item \textbf{PRUNE$_0$:} Si $u < v$ et ont les mêmes hypothèses $\Gamma$ et que il y a au u moins une formule X-eventuelle, mais pas de formule de la forme $\textbf{X}(a\textbf{U}b)$ ou $\textbf{XF}b$ dans $\Gamma$ où $\exists x, b\in\Gamma_x$ et $u < x \leq v$ alors $v$ ferme sa branche.
-        \item \textbf{TRANSITION:} Si aucune des autres règles ne s'applique, alors un noeud étiqueté par $\Gamma$ peut avoir un enfant dont l'étiquette est $\Delta = \{a | Xa\in\Gamma\}\bigcup\{\lnot a | \lnot Xa\in\Gamma\}$
-    \end{itemize}
-
-    \begin{proposition}[Correction et Complétude]
-        La méthode des tableaux en logique linéaire temporelle est correct et complet
-    \end{proposition}
-    \begin{preuve}
-        La preuve fait \textbf{10} pages, je crois qu'on va juste donner des idées phares pour la preuve :/
-    \end{preuve}
-
-
-
-
 
 \subsection{Automate de Buchi}
-
+    Ces formules seront transformés en automate acceptant des mots infinis, donc on doit définir de nouveaux automates:
     \begin{definition}[Automate de Buchi (BA)]
         Un automate de Büchi est un 5-uplets $(S, I, T, F, \Sigma)$ tel que
         \begin{itemize}
@@ -206,7 +110,7 @@ C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces 
         \end{itemize}
         Cet automate particulier accepte des séquences infinis (donc des mots infinis) ssi le mot passe par un état acceptant une infinité de fois.
     \end{definition}
-
+    On doit pouvoir faire deux opérations sur nos automates, un test pour savoir si un automate est vide et intersecter des automates, tout en intersectant les langages naturellement.
     \begin{proposition}[Test BA Vide]
         Un BA est non vide ssi il existe un état final qui est atteignable depuis un état initial et appartient à un cycle.
         
@@ -215,7 +119,7 @@ C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces 
     \begin{preuve}
     
     \end{preuve}
-    
+    Notre algorithme à un moment un automate de Büchi généralisé, on va devoir donc le transformer en automate de Büchi usuel.
     \begin{definition}[Automate de Büchi généralisé (GBA)]
         C'est un automate de Büchi où on change l'ensemble des états finaux $F$ par $F_g\subseteq \mathcal{P}(S)$ appelé \textbf{condition d'acceptation}.
     \end{definition}
@@ -254,17 +158,12 @@ C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces 
     
 \end{preuve}
 
+\subsection{La vérification de modèle}
+    \begin{definition}
+        Techniques automatiques qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles, vérifie systématiquement si ces propriétés restent vrai pour ce modèle.
+    \end{definition}
 
-
-
-
-
-\section{Résolution}
-
-\subsection{Présentation}
-
-    Pour résumé le déroulé de l'algorithme, nous devons faire en supposant l'implémentation de la méthode des tableaux en LTL faites et des automates de Büchi.
-    
+    On présente ici le déroulé de l'algorithme de vérification de modèle dans notre cas :
     \begin{enumerate}
         \item Création d'un automate $A_m$ correspondant au cahier des charges d'une technologies, sous forme des différents états dans lequel la technologie sera.
         \item Création d'un automate $A_{\lnot\varphi}$ où $\varphi$ représente les differentes contraintes que notre cahier des charges doit respecter, sous forme
@@ -273,18 +172,48 @@ C'est ainsi que la vérification de modèle rentre en jeu pour répondre à ces 
         \item Si l'automate resultant est vide, alors c'est bon, sinon on renvoie un contre exemple.
     \end{enumerate}
 
-    
-    \textbf{Remarques:} 
-    \begin{itemize}
-        \item Nous supposerons l'étape 1 donné, l'étape 3 et 4 est immédiat par ce qu'on a définit en préliminaire.
-        \item Intuitivement, Le langage des $A_m$ représente toutes les exécutions de $M$ et celui de $A_{\lnot\varphi}$ représente les exécutions ne satisfaisant pas la 
-        formule $\varphi$. Le langage du produit est donc vide ssi tous les chemins de $M$ satisfont $\varphi$. Sinon il existe un mot en commun, qui nous donne l'erreur.
-        \item Pour l'étape 1, en théorie l'automate est donné après transformation d'un système de transition $\mathcal{M}$ en un automate $A_{\mathcal{M}}$
-    \end{itemize}
+    Interessons nous donc à la construction de $A_m$: Intuitivement, Le langage des $A_m$ représente toutes les exécutions de $M$ et celui de $A_{\lnot\varphi}$ représente les exécutions ne satisfaisant pas la 
+    formule $\varphi$. Le langage du produit est donc vide ssi tous les chemins de $M$ satisfont $\varphi$. Sinon il existe un mot en commun, qui nous donne l'erreur.
 
+    En fait,  l'automate est donné après transformation d'un système de transition $\mathcal{M}$ en un automate $A_{\mathcal{M}}$
+\section{Résolution}
+
+\subsection{Création de $A_m$}
 
 
 \subsection{Creation de $A_{\lnot\varphi}$}
     On présente ici l'algorithme de Gerth
+
+\subsection{Création de l'automate syncronisé $A_m\times A_{\lnot\varphi}$}
+
+\subsection{Conclusion et Commentaires}
+
+
+
+\section{Correction}
+
+\begin{proposition}[Correction de la création de $A_{\lnot\varphi}$]
+    L'algorithme de Gerth-Valdi-Peled-Wolper est correct
+\end{proposition}
+
+\begin{preuve}
+    
+\end{preuve}
+
+\begin{proposition}[Correction de l'algorithme]
+    Notre processus entier de vérification de modèle est correct.
+\end{proposition}
+
+\begin{preuve}
+
+\end{preuve}
+
+\section{S'il y a pas assez de matière: Améliorations possibles}
+
+\section{Bibliographie}
+\begin{enumerate}
+    \item Rob Gerth, Doron Peled, Moshe Y. Vardi, Pierre Wolper ; Simple On-the-fly Automatic Verification of Linear Temporal Logic ; https://orbi.uliege.be/bitstream/2268/116644/1/GPVW95-pstv.pdf
+    \item Christel Baier, Joost-Pieter Katoen ; Principles of Model Checking ; The MIT Press - ISBN: 9780262026499
+\end{enumerate}
 
 \end{document}

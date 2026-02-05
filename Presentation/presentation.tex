@@ -82,6 +82,7 @@
         Soit $n\in\mathbb{N}^*$, et $(a_k)_{k\in [|1,n|]}$ des litteraux, on dit que $\varphi$ est de forme alternée ssi
         $$\varphi = a_1\land(a_2\lor(a_3\land(\dots(a_n))))$$
     \end{definition}
+    \pause
     Notre but en faisant une restriction du problème est:
     \begin{itemize}
         \item De mieux comprendre les avantages de cette méthode (dans quelle type de formule la méthode est-elle meilleur ?)
@@ -182,6 +183,7 @@
         \end{itemize}
         $AP$ un ensemble fini de variables propositionnelles.
     \end{definition}
+    \pause
     \begin{definition}[Opérateurs X, U, F, G]
             \begin{itemize}
                 \item $X\phi$ : $\phi$ doit être satisfaite dans l'état suivant (neXt)
@@ -197,6 +199,7 @@
         On définit un tel objet comme $\omega := w_0,w_1,\dots$ une suite infinie d'état.
         On écrira $\omega^i:=w_i,w_{i+1},\dots$ un suffixe de $\omega$.
     \end{definition}
+    \pause
     Soit $v : \omega\times F \rightarrow \{T,F\}$ une fonction de valuation.
     \begin{definition}[Satisfaction d'un monde ($\omega \models f$)]
         \begin{itemize}
@@ -218,9 +221,10 @@
         \item Raisonnement sur des circuits intégrés
         \item Raisonnement sur les protocoles de communications
     \end{itemize}
+    \pause
     Toutes ces applications s'inscrivent dans le cadre de la vérification de modèles qui est une méthode permettant de montrer
     la correction de systèmes informatiques complexes.
-
+    \pause
     \begin{definition}[Verification de modèle (Model Checking)]
     Technique automatique qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles,
     vérifie systématiquement si ces propriétés restent vrai pour ce modèle
@@ -232,8 +236,6 @@
     On retiendra seulement que la méthode des tableaux est très utilisé dans la logique modale qui englobe la LTL et que
     elle est particulièrement utile pour certaines techniques de vérifications de modèles. 
     
-    CF par Exemple: A. Pnueli and L. Zuck. Probabilistic verification by tableaux. In 1st Annual Symposium on Logic in Computer Science (LICS), pages 322-331. IEEE Computer Society Press, 1986
-
     Ainsi, nous allons étudier un exemple de formule de la LTL et étudier sa résolution par méthode des tableaux.
 \end{frame}
 
