@@ -1,6 +1,6 @@
 \documentclass{paper}
 
-\usepackage{amsmath,lstautogobble,amssymb,amsfonts, listings, fancyhdr, stmaryrd, array, tikz}
+\usepackage{amsmath,algorithm,algpseudocode,amssymb,amsfonts, listings, fancyhdr, stmaryrd, array, tikz}
 \usepackage[many]{tcolorbox}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -14,33 +14,6 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{definition}{Definition}
 \newtheorem{preuve}{Preuve}
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-\lstdefinestyle{mystyle}{
-    language=caml,
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2,
-    autogobble=true
-}
-
-\lstset{style=mystyle}
 
 \newcolumntype{C}{>$c<$}
 \tcolorboxenvironment{proposition}{enhanced, borderline={0.8pt}{0pt}{blue}, borderline={0.4pt}{2pt}{cyan}, boxrule=0.4pt, colback=white, coltitle=black, sharp corners}
@@ -93,7 +66,7 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
             \item $\omega \models \lnot f$ si $\lnot(\omega \models f)$ 
             \item $\omega \models f\lor g$ si $\omega \models f$ ou $\omega \models g$
             \item $\omega \models \textbf{X}f$ si $\omega^1 \models f$
-            \item $\omega \models f\textbf{U}g$ si $\omega \models g$ ou $\omega \models f\land\textbf{X}(f\textbf{U}g)$
+            \item $\omega \models f\textbf{U}g$ si $\exists i \geq 0 | \omega_i \models g$ et $\forall j \in [|0, i-1|], \omega_j \models f$
         \end{itemize}
     \end{definition}
 
@@ -113,17 +86,54 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
     On doit pouvoir faire deux opérations sur nos automates, un test pour savoir si un automate est vide et intersecter des automates, tout en intersectant les langages naturellement.
     \begin{proposition}[Test BA Vide]
         Un BA est non vide ssi il existe un état final qui est atteignable depuis un état initial et appartient à un cycle.
-        
-        \textbf{Algorithme:} On considère notre automate comme un graphe orienté, qu'on décompose en CFC, puis on fait un DFS depuis les etats initiaux et on trouve une CFC non trivial tq il contient un etat final et est atteignable par un état initial.
     \end{proposition}
     \begin{preuve}
-    
+        ($\Leftrightarrow$) L'équivalence est evidente, c'est une reformulation
     \end{preuve}
+
+\begin{algorithm}
+\caption{Detection de cycle}\label{alg:cap}
+\begin{algorithmic}
+    \Require $G=(S,A), A=(S,I,T,F,\Sigma)$ 
+    \Ensure $A$ is empty
+    \State $C_1,\dots,C_k \gets Tarjan(G)$
+    \State $f_1,...,f_n \gets F$
+    \State $i_1,...,i_p \gets I$
+    \For{$i$ from $1$ to $n$}
+        \State $C\gets C_q$ such that $f_i\in C_q$ 
+        \If{$|C| > 1$}
+            \For{$j$ from $1$ to $p$}
+                \State $L \gets DFS(G, i_j)$
+                \If{$f_i\in L$}
+                    \Return True
+                \EndIf
+            \EndFor
+        \EndIf
+    \EndFor
+    \Return False
+\end{algorithmic}
+\end{algorithm}
+
     Notre algorithme à un moment un automate de Büchi généralisé, on va devoir donc le transformer en automate de Büchi usuel.
     \begin{definition}[Automate de Büchi généralisé (GBA)]
-        C'est un automate de Büchi où on change l'ensemble des états finaux $F$ par $F_g\subseteq \mathcal{P}(S)$ appelé \textbf{condition d'acceptation}.
+        C'est un 4-uplets $(S, I, \rightarrow, F_g)$ tel que:
+        \begin{itemize}
+            \item $S$ est un ensemble fini d'état
+            \item $I\subseteq S$ un ensemble d'état initiaux
+            \item $\rightarrow\subseteq S\times S$ est la relation de transition
+            \item $F_g\subseteq \mathcal{P}(S)$ est un ensemble d'ensemble d'état acceptant
+        \end{itemize}
     \end{definition}
-    Un GBA accepte un mot ssi il est passé une infinité de fois par un état dans chaque ensemble d'état acceptant.
+    Nous n'avons pas encore proprement défini ici la condition d'acceptation pour un GBA, il nous faut déjà etiqueté notre automate pour cela
+    \begin{definition}[Automate de Büchi généralisé etiqueté (LGBA)]
+        C'est un triplet $(A, \Sigma, L)$ où:
+        \begin{itemize}
+            \item $A$ est un GBA
+            \item $\Sigma$ un alphabet/domaine finie
+            \item $L: S \rightarrow \mathcal{P}(\Sigma)$ une fonction d'etiquetage
+        \end{itemize}
+        On dit qu'un mot $\omega := \omega_0\dots$ est accepté ssi il existe une suite d'état $\sigma := \sigma_0\dots$ tq $\forall i\in\mathbb{N}, \omega_i\in L(\sigma_i)$
+    \end{definition}
 
     \begin{proposition}[GBA vers BA]
         Un ensemble multiple d'état acceptant peut être traduit en un ensemble en construisant un automate par une "counting construction". 
