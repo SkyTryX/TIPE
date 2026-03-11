@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1770128933.48319 "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" "presentation.pdf" "presentation" 1770128938.44123 0
-  "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" 1770128928.40295 22397 a5266c4288181fe16574287d093d02b7 ""
+["pdflatex"] 1773156093.58603 "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" "presentation.pdf" "presentation" 1773156099.1396 0
+  "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" 1773156087.71152 25073 23685c86e5255f733312049c5d54f7e4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -8,6 +8,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss0500.tfm" 1136768653 3584 3cb5b0e5e7e89823423413806ab1d938 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss0600.tfm" 1136768653 3584 29c1411d292c531bfea559d981c42321 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss0800.tfm" 1136768653 3584 885a9b5d0df19657ad7066a0c4430437 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss1000.tfm" 1136768653 3584 ab55608ad377891510479d34d90acc46 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss1095.tfm" 1136768653 3584 8ece407347b270c252c46fdfaef5a9ef ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss1440.tfm" 1136768653 3584 861af00b50f6fb3ae4544a29a04a7577 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsx0600.tfm" 1136768653 3584 9feb3c81e48cd8da6bccfb2416d7d99e ""
@@ -256,11 +257,11 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1752162640 5523539 cbe340ff87ac4cfddcdc6361a84e52ac ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1752162748 3604909 76315c4aad85d1f43d1d3cb83380097e ""
   "/usr/local/texlive/2025/texmf.cnf" 1752162626.34851 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "presentation.aux" 1770128938.13705 3286 c61f5f525c7cea98a23928ba6a852528 "pdflatex"
-  "presentation.nav" 1770128938.13905 2241 8bb16ac6cff71c945bcaed952afa076f "pdflatex"
-  "presentation.out" 1770128935.16702 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "presentation.tex" 1770128928.40295 22397 a5266c4288181fe16574287d093d02b7 ""
-  "presentation.vrb" 1770128938.07005 1125 0d45832f95ca5ffaa79a530901cd559d "pdflatex"
+  "presentation.aux" 1773156098.83158 3931 b337066f5ea3bf211b5c342bba3c77d1 "pdflatex"
+  "presentation.nav" 1773156098.83358 2706 d231c3cd1ca01a7ef1f7b0251bfde185 "pdflatex"
+  "presentation.out" 1773156095.40156 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "presentation.tex" 1773156087.71152 25073 23685c86e5255f733312049c5d54f7e4 ""
+  "presentation.vrb" 1773156098.78058 203 f8e4799079951a9a3cb2f418334e0648 "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"

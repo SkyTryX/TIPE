@@ -463,6 +463,7 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/sansmathaccent/mathker
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsx1095.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsx0800.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsx0600.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss1000.tfm
 OUTPUT presentation.vrb
 INPUT ./presentation.vrb
 INPUT ./presentation.vrb
@@ -470,6 +471,10 @@ INPUT presentation.vrb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1095.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt0800.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecit0800.tfm
+OUTPUT presentation.vrb
+INPUT ./presentation.vrb
+INPUT ./presentation.vrb
+INPUT presentation.vrb
 OUTPUT presentation.vrb
 INPUT ./presentation.vrb
 INPUT ./presentation.vrb

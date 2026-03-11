@@ -170,8 +170,8 @@
         \item Bien entendu, il n'est pas possible de convertir toutes les formules en Alternée.
         \item On a donc trouvé un exemple de type de formule qui est facile à analyser par méthode des tableaux.
     \end{itemize}
-
-    Nous allons maintenant ellargir notre étude et s'interesser à la logique linéaire temporelle (LTL).
+    Maintenant que nous avons une meilleur compréhension de l'algorithme, 
+    nous allons maintenant ellargir notre étude et s'interesser à la logique linéaire temporelle (LTL).
 \end{frame}
 
 \begin{frame}{LTL - Intro 1}
@@ -300,7 +300,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{LTL- Introduction de l'Etude}
+\begin{frame}{LTL - Introduction de l'Etude}
     \textbf{Remarques:}
     \begin{itemize}
         \item Grâce à toutes ces règles, on peut montrer qu'un tel algorithme de résolution de SAT est complet et correct (il renvoie vrai si la formule est satisfiable et reciproquement).
@@ -310,6 +310,65 @@
     Ainsi nous allons nous interesser à la modélisation d'un objet technologique en LTL, en observant les hypothèses, que l'on fait etc... 
     
     In fine, on pourra appliquer la méthode des tableaux pour conclure sur le bon fonctionnement de tout!
+\end{frame}
+
+\begin{frame}{LTL Etude - Définition système}
+    \begin{definition}[Système]
+        \begin{itemize}
+            \item On définit le système qu'on va étudié comme étant un compteur binaire modulo 4, constitué de deux ampoules et d'un bouton.
+            \item Son but: faire un compteur qui à chaque fois que le bouton est appuyé, on incrémente le compteur.
+        \end{itemize}
+    \end{definition}
+    Automates des transitions du système:
+    \begin{tikzpicture}[
+        state/.style={circle,draw,minimum size=1.2cm},
+        arrow/.style={-{Stealth},thick},
+        label/.style={font=\small}
+        ]
+
+        \node[state] (S0) {$0, 00$};
+        \node[state, right=2cm of S0] (S1) {$1, 01$};
+        \node[state, right=2cm of S1] (S2) {$2, 10$};
+        \node[state, right=2cm of S2] (S3) {$3, 11$};
+
+        \draw[arrow] (S0) edge[bend left] node[label]{} (S1);
+        \draw[arrow] (S1) edge[bend left] node[label]{} (S2);
+        \draw[arrow] (S2) edge[bend left] node[label]{} (S3);
+        \draw[arrow] (S3) edge[bend left] node[label]{} (S0);
+
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{LTL Etude - Définition des états de notre système}
+    Plusieurs choix pour la définition de l'affichage:
+    \begin{itemize}
+        \item Comme dans l'automate, on fait pour chaque valeur une variable qui est vrai ssi le compteur prend cette valeur.
+        \item Chaque lumière est modélisé par une variable
+    \end{itemize}
+    Pour le bouton, on le modélisera par une variable qui est vrai ssi le bouton est pressé.
+
+    Pour l'affichage, on fait le deuxième choix pour limiter le nombre de variable en jeu.
+
+    On notera formellement les variable $\varphi_{l1}$, $\varphi_{l2}$ et $\varphi_b$.
+\end{frame}
+
+\begin{frame}{LTL Etude - Propriétés}
+    On propose les premières propriétés suivantes:
+
+    \textbf{Propriétés}
+    \begin{itemize}
+        \item Si le bouton est appuyé, la lumière $l2$ change forcement
+        \item Si le bouton est appuyé, la lumière $l1$ change si $\varphi_{l2}$
+    \end{itemize}
+    \textbf{Traduction}
+    \begin{itemize}
+        \item $\varphi_{b} \implies (\varphi_{l2} \Leftrightarrow \lnot(X \varphi_{l2}))$
+        \item $(\varphi_{b} \land \varphi_{l2}) \implies (\varphi_{l1} \Leftrightarrow \lnot(X \varphi_{l1}))$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+
 \end{frame}
 
 \begin{frame}[fragile]{Code - Méthode des tableaux classique 1}
@@ -498,6 +557,16 @@
                         in aux br (Hashtbl.create 100);;
           
                         let is_satisfiable (f:formula) : bool = let b = formula2branch f in has_cycle b;;
+            \end{lstlisting}
+        \end{tabular}
+    \end{center}   
+\end{frame}
+
+\begin{frame}[fragile]{Code - LTL SAT}
+    \begin{center}
+        \begin{tabular}{c}
+            \begin{lstlisting}
+                        A Ajouter
             \end{lstlisting}
         \end{tabular}
     \end{center}   

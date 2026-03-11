@@ -39,6 +39,7 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
 \section{Préliminaires}
     Nous allons pour l'instant introduire des concepts hors programme MPI afin de mener à bien notre étude.
 
+    Pour illustrer les différentes définitions et leurs utilités, on considerera un feu de circulation.
 \subsection{Logique Linéaire Temporelle}
     On modélise les différentes contraintes auxquels notre système doivent obéir par des formules logiques "dépendant du temps" d'où:
     \begin{definition}[Formule de la LTL]
@@ -91,28 +92,29 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
         ($\Leftrightarrow$) L'équivalence est evidente, c'est une reformulation
     \end{preuve}
 
-\begin{algorithm}
-\caption{Detection de cycle}\label{alg:cap}
-\begin{algorithmic}
-    \Require $G=(S,A), A=(S,I,T,F,\Sigma)$ 
-    \Ensure $A$ is empty
-    \State $C_1,\dots,C_k \gets Tarjan(G)$
-    \State $f_1,...,f_n \gets F$
-    \State $i_1,...,i_p \gets I$
-    \For{$i$ from $1$ to $n$}
-        \State $C\gets C_q$ such that $f_i\in C_q$ 
-        \If{$|C| > 1$}
-            \For{$j$ from $1$ to $p$}
-                \State $L \gets DFS(G, i_j)$
-                \If{$f_i\in L$}
-                    \Return True
-                \EndIf
-            \EndFor
-        \EndIf
-    \EndFor
-    \Return False
-\end{algorithmic}
-\end{algorithm}
+    On peut utiliser l'algorithme de Tarjan par exemple pour trouver les composantes fortement connexe (ou Kosaraju Sharir)
+    \begin{algorithm}
+    \caption{Cycle Detection}\label{alg:cap}
+    \begin{algorithmic}
+        \Require $G=(S,A), A=(S,I,T,F,\Sigma)$ 
+        \Ensure $A$ is empty
+        \State $C_1,\dots,C_k \gets Tarjan(G)$
+        \State $f_1,...,f_n \gets F$
+        \State $i_1,...,i_p \gets I$
+        \For{$i$ from $1$ to $n$}
+            \State $C\gets C_q$ such that $f_i\in C_q$ 
+            \If{$|C| > 1$}
+                \For{$j$ from $1$ to $p$}
+                    \State $L \gets DFS(G, i_j)$
+                    \If{$f_i\in L$}
+                        \Return True
+                    \EndIf
+                \EndFor
+            \EndIf
+        \EndFor
+        \State \Return False
+    \end{algorithmic}
+    \end{algorithm}
 
     Notre algorithme à un moment un automate de Büchi généralisé, on va devoir donc le transformer en automate de Büchi usuel.
     \begin{definition}[Automate de Büchi généralisé (GBA)]
