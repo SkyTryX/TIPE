@@ -56,6 +56,8 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
         $AP$ un ensemble fini de variables propositionnelles.
     \end{definition}
 
+    On introduit aussi $\psi V \phi = \lnot(\lnot\psi U\lnot\phi)$.
+
     Soit $v : \omega\times F \rightarrow \{T,F\}$ une fonction de valuation.
     
     \begin{definition}[Monde]
@@ -194,9 +196,75 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
 
 
 \subsection{Creation de $A_{\lnot\varphi}$}
-    On présente ici l'algorithme de Gerth
+    \subsubsection{Structure de donnée}
+    On présente ici l'algorithme de Gerth.
+    Premièrement, on introduit une structure de donnée: 
+    On construit un graphe avec des noeuds décrit par:
+    \begin{itemize}
+        \item Nom: un string
+        \item Incoming: Les arètes qui arrivent sur le noeud représenté par le noeud voisin
+        \item New: Un ensemble de formule LTL qui n'ont pas encore été considérer par l'algorithme
+        \item Old: Un ensemble de formule LTL qui ont été considéré
+        \item Next: Une formule LTL qui doit être vrai pour tout état dans les successeurs immédiats des états qui satisfait les propriétés de Old
+        \item Father: Pendant la construction, les noeuds seront divisé, il contient le nom de l'autre noeud avec lequel il a été divisé
+    \end{itemize}
 
-\subsection{Création de l'automate syncronisé $A_m\times A_{\lnot\varphi}$}
+    \textbf{Remarque:}
+    \begin{itemize}
+        \item On notera $Init$ un noeud spécial qui désigne le noeud initial
+        \item On note $Nodes\_Set$ une liste de noeud dont la construction est faite 
+        \item Father n'est pas necessaire pour l'algorithme, c'est juste pour simplifier les raisonnements et la preuve de correction
+    \end{itemize} 
+    
+    \subsubsection{Algorithm}
+    On va supposé sans perte de généralité plusieurs hypothèses sur notre formule:
+    \begin{itemize}
+        \item L'opérateur $X$ n'est pas utilisé, nous verrons plus tard comment lever cette restriction
+        \item Toutes les negations sont poussés sur les variables.
+    \end{itemize}
+    Ainsi, l'opérateur $V$ est en fait défini pour éviter une explosion exponentielle de la taille de la formule.
+
+    \begin{algorithm}
+    \caption{Algorithme de Gerth - Expand}
+    \begin{algorithmic}
+        \Require $Node, Nodes\_Set$
+        \If{$Node.New = \emptyset$}
+            \If{$\exists ND\in Nodes\_Set | (ND.Old = Node.Old \land ND.Next = Node.Next)$}
+                \State $ND.Incoming \gets ND.Incoming\cup Node.Incoming$
+                \State \Return $Nodes\_Set$
+            \EndIf
+            \State $n \gets new\_name()$
+            \State \Return expand([Na:$n$, F:$n$, I:$\{Node.Name\}$, New:$\{\varphi\}$, O:$\emptyset$, Nex:$Node.Next$], $\{Node\}\cup Nodes\_Set$)
+        \EndIf
+        \State $\eta\in New$
+        \State $Node.New := Node.new\setminus\{\eta\}$
+        \If{$\eta\in \{F, T, VarProp\}$}
+            \If{$\eta = F \lor Neg(\eta)\in Node.Old$}
+                \State \Return $Nodes\_Set$
+            \EndIf
+            \State $Node.Old := Node.Old\cup\{\eta\}$
+            \State \Return expand(Node, $Nodes\_Set$)
+        \EndIf
+        \If{tout}
+        \EndIf
+        \If{And}
+        \EndIf
+        \If{X}
+        \EndIf
+    \end{algorithmic}
+    \end{algorithm}
+
+    \begin{algorithm}
+    \caption{Algorithme de Gerth - Create Graph}
+    \begin{algorithmic}
+        \Require $\varphi$ 
+        \State $n \gets new\_name()$
+        \State \Return expand([Name:$n$, Father:$n$, Incoming:$\{Init\}$, New:$\{\varphi\}$, Old:$\emptyset$, Next:$\emptyset$], $\emptyset$)
+    \end{algorithmic}
+    \end{algorithm}
+
+
+\subsection{Création de $A_m\times A_{\lnot\varphi}$}
 
 \subsection{Conclusion et Commentaires}
 
