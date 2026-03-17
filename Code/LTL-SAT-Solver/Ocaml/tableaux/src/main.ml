@@ -373,12 +373,12 @@ let sat (phi:ltl):bool =
 
 
 (**Returns true iff phi is valid in the fragment of ltl logic without until*)
-let valid phi = not(sat(Neg(phi)))
+let valid phi = not(sat(Neg(phi)));;
 
 
 
 
 
-
+(And(Or(Neg(Prop('a')), Or(Neg(And(Prop('b'), Neg(X(Prop('b'))))), And(Prop('b'), Neg(X(Prop('b')))))), Prop('a')))
 
 

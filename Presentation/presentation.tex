@@ -353,22 +353,29 @@
 \end{frame}
 
 \begin{frame}{LTL Etude - Propriétés}
-    On propose les premières propriétés suivantes:
+    On propose les premières propriétés suivantes de manière naive:
 
     \textbf{Propriétés}
     \begin{itemize}
-        \item Si le bouton est appuyé, la lumière $l2$ change forcement
-        \item Si le bouton est appuyé, la lumière $l1$ change si $\varphi_{l2}$
+        \item En tout temps, si le bouton est appuyé, la lumière $l2$ change forcement
+        \item En tout temps, si le bouton est appuyé, la lumière $l1$ change si $\varphi_{l2}$
     \end{itemize}
     \textbf{Traduction}
     \begin{itemize}
-        \item $\varphi_{b} \implies (\varphi_{l2} \Leftrightarrow \lnot(X \varphi_{l2}))$
-        \item $(\varphi_{b} \land \varphi_{l2}) \implies (\varphi_{l1} \Leftrightarrow \lnot(X \varphi_{l1}))$
+        \item $G(\varphi_{b} \implies (\varphi_{l2} \Leftrightarrow \lnot(X \varphi_{l2})))$
+        \item $G((\varphi_{b} \land \varphi_{l2}) \implies (\varphi_{l1} \Leftrightarrow \lnot(X \varphi_{l1})))$
     \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{LTL Etude - Autre Etude}
+    On va comparer avec une étude introductive posé dans Principes de vérifications de modèles p240 par
+    Christel Baier and Joost-Pieter Katoen.
 
+    (Description)
+\end{frame}
+
+\begin{frame}{LTL Etude - Comparaison}
+    (Comparaison)
 \end{frame}
 
 \begin{frame}[fragile]{Code - Méthode des tableaux classique 1}

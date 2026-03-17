@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1773156093.58603 "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" "presentation.pdf" "presentation" 1773156099.1396 0
-  "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" 1773156087.71152 25073 23685c86e5255f733312049c5d54f7e4 ""
+["pdflatex"] 1773760370.24542 "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" "presentation.pdf" "presentation" 1773760375.85777 0
+  "/home/dorian/Documents/School/Prepa/TIPE/Presentation/presentation.tex" 1773760369.69468 25392 c5bd9b9e07751087578b292031e7ca8e ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -257,11 +257,11 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1752162640 5523539 cbe340ff87ac4cfddcdc6361a84e52ac ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1752162748 3604909 76315c4aad85d1f43d1d3cb83380097e ""
   "/usr/local/texlive/2025/texmf.cnf" 1752162626.34851 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "presentation.aux" 1773156098.83158 3931 b337066f5ea3bf211b5c342bba3c77d1 "pdflatex"
-  "presentation.nav" 1773156098.83358 2706 d231c3cd1ca01a7ef1f7b0251bfde185 "pdflatex"
-  "presentation.out" 1773156095.40156 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "presentation.tex" 1773156087.71152 25073 23685c86e5255f733312049c5d54f7e4 ""
-  "presentation.vrb" 1773156098.78058 203 f8e4799079951a9a3cb2f418334e0648 "pdflatex"
+  "presentation.aux" 1773760375.53565 4060 299486e717c9354e8baba348a9e0863b "pdflatex"
+  "presentation.nav" 1773760375.53668 2799 9cb3185bb3dda30f2e0c4973ccfd1408 "pdflatex"
+  "presentation.out" 1773760372.04568 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "presentation.tex" 1773760369.69468 25392 c5bd9b9e07751087578b292031e7ca8e ""
+  "presentation.vrb" 1773760375.47968 203 f8e4799079951a9a3cb2f418334e0648 "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"
