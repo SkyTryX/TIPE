@@ -234,22 +234,27 @@ La bible: Simple On-the-fly Automatic Verification of Linear Temporal Logic
                 \State \Return $Nodes\_Set$
             \EndIf
             \State $n \gets new\_name()$
-            \State \Return expand([Na:$n$, F:$n$, I:$\{Node.Name\}$, New:$\{\varphi\}$, O:$\emptyset$, Nex:$Node.Next$], $\{Node\}\cup Nodes\_Set$)
+            \State \Return expand([Na:$n$, F:$n$, I:$\{Node.Name\}$, New:$Node.Next$, O:$\emptyset$, Nex:$\emptyset$], $\{Node\}\cup Nodes\_Set$)
         \EndIf
         \State $\eta\in New$
         \State $Node.New := Node.new\setminus\{\eta\}$
-        \If{$\eta\in \{F, T, VarProp\}$}
-            \If{$\eta = F \lor Neg(\eta)\in Node.Old$}
+        \If{$\eta\in \{F, T, VarProp, \lnot VarProp\}$}
+            \If{$(\eta = F) \lor (Neg(\eta)\in Node.Old)$}
                 \State \Return $Nodes\_Set$
             \EndIf
             \State $Node.Old := Node.Old\cup\{\eta\}$
             \State \Return expand(Node, $Nodes\_Set$)
         \EndIf
-        \If{tout}
+        \If{$(\eta = \varphi \textbf{U} \psi)\lor(\eta = \varphi \textbf{V} \psi)\lor(\eta = \varphi \lor \psi)$}
+            \State Node1 := [Na:$new\_name()$, F:$Node.Name$, I:$Node.Incoming$, New:$Node.New \cup New1(\eta) \setminus Node.Old$, O:$Node.Old \cup \{\eta\}$, Nex:$Node.Next\cup Next1(\eta)$]
+            \State Node2 := [Na:$new\_name()$, F:$Node.Name$, I:$Node.Incoming$, New:$Node.New \cup New2(\eta) \setminus Node.Old$, O:$Node.Old \cup \{\eta\}$, Nex:$Node.Next$]
+            \State \Return expand($Node2$, expand($Node1$, $Nodes\_Set$))
         \EndIf
-        \If{And}
+        \If{$\eta = \varphi \land \psi$}
+            \State \Return expand([Na:$Node.Name$, F:$Node.Father$, I:$Node.Incoming$, New:$Node.New \cup \{\varphi, \psi\}\setminus Node.Old$, O:$Node.Old \cup \{\eta\}$, Nex:$Node.Next$], $Nodes\_Set$)
         \EndIf
-        \If{X}
+        \If{$\eta = X\varphi$}
+            \State \Return expand([Na:$Node.Name$, F:$Node.Father$, I:$Node.Incoming$, New:$Node.New$, O:$Node.Old \cup \{\eta\}$, Nex:$Node.Next\cup \{\varphi\}$], $Nodes\_Set$)
         \EndIf
     \end{algorithmic}
     \end{algorithm}
