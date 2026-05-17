@@ -1,0 +1,101 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{random}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{randint}\PYG{p}{,} \PYG{n}{getrandbits}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{math}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{floor}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{SAT\PYGZus{}formule\PYGZus{}gen}\PYG{p}{(}\PYG{n}{l}\PYG{p}{):}
+    \PYG{n}{string} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}(\PYGZdq{}}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{l}\PYG{p}{):}
+        \PYG{n}{b} \PYG{o}{=} \PYG{n+nb}{bool}\PYG{p}{(}\PYG{n}{getrandbits}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))}
+        \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}And(\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Or(\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{,\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Not(Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{),\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+        \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Not(Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+    \PYG{n}{string} \PYG{o}{+=} \PYG{p}{(}\PYG{n}{l}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+s+s2}{\PYGZdq{})\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{string}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{alternee\PYGZus{}formule\PYGZus{}gen}\PYG{p}{(}\PYG{n}{l}\PYG{p}{,} \PYG{n}{nb\PYGZus{}lit}\PYG{p}{):}
+    \PYG{n}{string} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}(\PYGZdq{}}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{l}\PYG{p}{):}
+        \PYG{n}{b} \PYG{o}{=} \PYG{n+nb}{bool}\PYG{p}{(}\PYG{n}{getrandbits}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))}
+        \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}And(\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Or(\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, true),\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, false),\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+        \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Atom(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, true)\PYGZdq{}}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{string} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Atom(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, false)\PYGZdq{}}
+    \PYG{n}{string} \PYG{o}{+=} \PYG{p}{(}\PYG{n}{l}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+s+s2}{\PYGZdq{})\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{string}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{both\PYGZus{}gen}\PYG{p}{(}\PYG{n}{l}\PYG{p}{,} \PYG{n}{nb\PYGZus{}lit}\PYG{p}{):}
+    \PYG{n}{alt\PYGZus{}str} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}(\PYGZdq{}}
+    \PYG{n}{sat\PYGZus{}str} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}(\PYGZdq{}}
+    \PYG{n}{dpl\PYGZus{}str} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{l}\PYG{p}{):}
+        \PYG{n}{b} \PYG{o}{=} \PYG{n+nb}{bool}\PYG{p}{(}\PYG{n}{getrandbits}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))}
+        \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}And(\PYGZdq{}}
+            \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}And(\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Or(\PYGZdq{}}
+            \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Or(\PYGZdq{}}
+        \PYG{n}{number} \PYG{o}{=} \PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}
+        
+        \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+            \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, true),\PYGZdq{}}
+            \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{,\PYGZdq{}}
+            \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, false),\PYGZdq{}}
+            \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Not(Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{),\PYGZdq{}}
+            \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        
+        \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{} \PYGZam{} (\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{} | (\PYGZdq{}}
+    \PYG{n}{number} \PYG{o}{=} \PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{nb\PYGZus{}lit}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{b}\PYG{p}{:}
+        \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Atom(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, true)\PYGZdq{}}
+        \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Atom(}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{, false)\PYGZdq{}}
+        \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Not(Var }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+        \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{number}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{alt\PYGZus{}str} \PYG{o}{+=} \PYG{p}{(}\PYG{n}{l}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+s+s2}{\PYGZdq{})\PYGZdq{}}
+    \PYG{n}{sat\PYGZus{}str} \PYG{o}{+=} \PYG{p}{(}\PYG{n}{l}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+s+s2}{\PYGZdq{})\PYGZdq{}}
+    \PYG{n}{dpl\PYGZus{}str} \PYG{o}{+=} \PYG{n}{l}\PYG{o}{*}\PYG{l+s+s2}{\PYGZdq{})\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{alt\PYGZus{}str}\PYG{p}{,} \PYG{n}{sat\PYGZus{}str}\PYG{p}{,} \PYG{n}{dpl\PYGZus{}str}
+
+\PYG{n}{txt\PYGZus{}alt} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}[|\PYGZdq{}}
+\PYG{n}{txt\PYGZus{}sat} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}[|\PYGZdq{}}
+\PYG{n}{txt\PYGZus{}dpl} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{101}\PYG{p}{):}
+    \PYG{n}{res} \PYG{o}{=} \PYG{n}{both\PYGZus{}gen}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{floor}\PYG{p}{(}\PYG{n}{i}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)))}
+    \PYG{n}{txt\PYGZus{}alt} \PYG{o}{+=} \PYG{n}{res}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{};}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{txt\PYGZus{}sat} \PYG{o}{+=} \PYG{n}{res}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{};}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{txt\PYGZus{}dpl} \PYG{o}{+=} \PYG{n}{res}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{n}{txt\PYGZus{}alt} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{}|]\PYGZdq{}}
+\PYG{n}{txt\PYGZus{}sat} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{}|]\PYGZdq{}}
+\PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}tests\PYGZus{}alt.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f\PYGZus{}alt}\PYG{p}{:}
+    \PYG{n}{f\PYGZus{}alt}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{txt\PYGZus{}alt}\PYG{p}{)}
+\PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}tests\PYGZus{}quine.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f\PYGZus{}sat}\PYG{p}{:}
+    \PYG{n}{f\PYGZus{}sat}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{txt\PYGZus{}sat}\PYG{p}{)}
+\PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}tests\PYGZus{}dpll.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f\PYGZus{}dpll}\PYG{p}{:}
+    \PYG{n}{f\PYGZus{}dpll}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{txt\PYGZus{}dpl}\PYG{p}{)}
+\end{MintedVerbatim}

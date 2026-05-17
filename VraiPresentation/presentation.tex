@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usetheme{Rochester}
 \usepackage[french]{babel}
-\usepackage{tikz,lstautogobble,listings}
+\usepackage{tikz,lstautogobble,listings, minted}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
@@ -9,7 +9,14 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
 
-
+\setminted[ocaml]{	                               
+	linenos=true, numbersep=4pt, xleftmargin=20pt,      %--numéro de ligne
+	breaklines=true                                    %--découpage des longues lignes
+}
+\setminted[python]{	                               
+	linenos=true, numbersep=4pt, xleftmargin=20pt,      %--numéro de ligne
+	breaklines=true                                    %--découpage des longues lignes
+}
 \title{Méthode des tableaux: Applications dans différentes logiques}
 \author{GIL Dorian - Candidat n°20220}
 \subtitle{TIPE 25/26 - Cycles et Boucles}
@@ -75,7 +82,7 @@
     \end{center}
     \pause
     \begin{center}
-        \textbf{Une Re-écriture:} 
+        \textbf{Une re-écriture:} 
     \end{center}
     \begin{columns}[t]
     \begin{column}{0.30\textwidth}
@@ -115,7 +122,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Résolution}
-    \textbf{Proposition d'Algorithme ($\mathcal{O}(n)$, correction prouvé):}
+    \textbf{Proposition d'algorithme ($\mathcal{O}(n)$, correction prouvé):}
     \begin{enumerate}
         \item Fin de l'arbre: Renvoyer Vrai
         \item Feuille gauche: SI Pas Contradiction, Renvoyer Vrai
@@ -145,9 +152,11 @@
     \textbf{Quelques Remarques}
     \begin{itemize}[<+->]
         \item Conversion IMPOSSIBLE
-        \item Méthode des tableaux en logique Propositionelle ?
+        \item Méthode des tableaux en logique propositionelle ?
         \item Réelle application de la méthode ?
     \end{itemize}
+
+    PHOTO METHODE DES TABLEAUX
 \end{frame}
 
 \begin{frame}{Definitions 1/2}
@@ -174,6 +183,8 @@
      \begin{definition}[Valuation]
         On définit un tel objet comme $\omega := w_0,w_1,\dots$ une suite infinie de monde.
     \end{definition}
+
+    AJOUTE UNE IMAGE DE TIMELINE LTL
 \end{frame}
 
 \begin{frame}{Pourquoi ?}
@@ -183,11 +194,11 @@
         \item Raisonnement sur des circuits intégrés
         \item Raisonnement sur les protocoles de communications
     \end{itemize}
+    \pause
     \begin{definition}[Verification de modèle (Model Checking)]
     Technique automatique qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles,
     vérifie systématiquement si ces propriétés restent vrai pour ce modèle. (Principles of Model Checking de C.Baier, JP.Katoen)
     \end{definition}
-
 \end{frame}
 
 \begin{frame}{Méthode des tableaux}
@@ -215,6 +226,8 @@
     \pause
     Hypothèse: Le compteur est fait par des circuits logiques (on a 2 ampoules)
     On notera formellement les ampoules $\varphi_1$, $\varphi_2$ et la valeur renvoyé $r$
+
+    AJOUTER PHOTO COMPTEUR BINAIRE
 \end{frame}
 
 \begin{frame}{Contraintes}
@@ -222,7 +235,7 @@
     \begin{itemize}
         \item L'ampoule $2$ change toujours de valeur
         \item L'ampoule $1$ change ssi $\varphi_2$
-        \item $r$ ssi les deux ampoules sont eteintes
+        \item $r$ ssi les deux ampoules sont éteintes
     \end{itemize}
     \pause
     \textbf{Traduction}
@@ -268,7 +281,7 @@
 \end{frame}
 
 \begin{frame}{Comparaison}
-    Quand on regarde la littérature (en particulier Principles of Model Checking de C.Baier, JP.Katoen):
+    Source: Principles of Model Checking de C.Baier, JP.Katoen
     \begin{itemize}
         \item Même système de transition
         \item $G(r\Leftrightarrow\lnot\varphi_1\land\lnot\varphi_2)$ similaire
@@ -286,11 +299,17 @@
 \end{frame}
 
 \begin{frame}{Conclusion}
-    \textbf{1er Etude: }nous a permit de nous familiariser avec la méthode des tableaux et de trouver une famille de formule qu'elle résout facilement.
+    Rappel: On voulait determiner l'utilité de la méthode des tableaux dans différentes logiques.
+    \begin{itemize}
+        \item Etude de la résolution de SAT et familiarisation avec la méthode 
+        \item Application et discution à propos des algorithmes utilisant cette méthode
+    \end{itemize}
 
-    \textbf{2eme Etude: }nous a apprit que cette algorithme est utilisé pour faire de la vérification de modèle. Après étude d'un algorithme de vérification
-    de modèle utilisant la méthode des tableaux, on a pu via un exemple étudier la manière dont les systèmes informatiques peuvent être modéliser et étudier
-    afin de limiter la présence de bugs.
+    AJOUTER IMAGE BILAN
 \end{frame}
+
+ \inputminted[]{ocaml}{Code/Alternee_Tableau.ml}
+ \inputminted[]{python}{Code/PropGenerator.py}
+ \inputminted[]{ocaml}{Code/quine.ml}
 
 \end{document}

@@ -1,5 +1,5 @@
 \frametitle{Résolution}
-\textbf{Proposition d'Algorithme ($\mathcal{O}(n)$, correction prouvé):}
+\textbf{Proposition d'algorithme ($\mathcal{O}(n)$, correction prouvé):}
     \begin{enumerate}
         \item Fin de l'arbre: Renvoyer Vrai
         \item Feuille gauche: SI Pas Contradiction, Renvoyer Vrai
