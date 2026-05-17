@@ -1,0 +1,296 @@
+\documentclass{beamer}
+\usetheme{Rochester}
+\usepackage[french]{babel}
+\usepackage{tikz,lstautogobble,listings}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usetikzlibrary{trees,shapes,arrows.meta,positioning, automata, calc}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+
+\title{Méthode des tableaux: Applications dans différentes logiques}
+\author{GIL Dorian - Candidat n°20220}
+\subtitle{TIPE 25/26 - Cycles et Boucles}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Contexte}
+    \begin{center}
+        \textbf{La Méthode des tableaux (Logique Propositionelle)}
+
+        \textit{Algorithme de résolution du problème SAT}
+    \end{center}
+    \pause
+    \begin{center}
+        \textbf{Règle d'inférence:}    
+    \end{center}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.75]
+    \node {$\phi\lor\psi$}
+        child {node {$\phi$}}
+        child {node {$\psi$}};
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=0.75]
+    \node {$\lnot(\phi\land\psi)$}
+        child {node {$\lnot\phi$}}
+        child {node {$\lnot\psi$}};
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=0.75]
+    \node {$\lnot\lnot\phi$}
+        child {node {$\phi$}};
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=0.75]
+    \node {$\phi\land\psi$}
+        child {node {$\phi, \psi$}};
+    \end{tikzpicture}  
+    \begin{tikzpicture}[scale=0.75]
+    \node {$\lnot(\phi\lor\psi)$}
+        child {node {$\lnot\phi, \lnot\psi$}};
+    \end{tikzpicture}
+    \end{center}
+    \pause
+    \textbf{Exemple avec $a\land \lnot a$ :}
+
+    \begin{tikzpicture}[scale=0.75]
+    \node {$a\land\lnot a$}
+        child {node {$a, \lnot a$}};
+    \end{tikzpicture} 
+\end{frame}
+
+\begin{frame}{Etude introductive}
+    \begin{definition}[Forme Alternée]
+        Soit $n\in\mathbb{N}^*$, et $(a_k)_{k\in [|1,n|]}$ des litteraux, on dit que $\varphi$ est de forme alternée ssi
+        $\varphi = a_1\land(a_2\lor(a_3\land(\dots(a_n))))$
+    \end{definition}
+    \pause
+    \begin{center}
+        \textbf{Objectif de l'étude introductive ?} 
+    \end{center}
+    \pause
+    \begin{center}
+        \textbf{Une Re-écriture:} 
+    \end{center}
+    \begin{columns}[t]
+    \begin{column}{0.30\textwidth}
+        \centering
+        \begin{tikzpicture}[level distance=8mm]
+        \node {$a_1$}
+            child {node {$a_2$}}
+            child {node {$a_3$}
+            child {node {$a_4$}}
+            child {node {$a_5$}}};
+        \end{tikzpicture}
+    \end{column}
+   
+    \begin{column}{0.10\textwidth}
+    \centering
+    \begin{tikzpicture}[x=1mm,y=1mm]
+      \draw[<-, thick, black] (-10,0) .. controls +(4,6) and +(-4,6) .. (4,0);
+    \end{tikzpicture}
+  \end{column}
+
+    \begin{column}{0.40\textwidth}
+        \centering
+        \begin{tikzpicture}[level distance=8mm]
+        \node {$a_1$}
+            child {node {$a_1 , a_2\lor(a_3\land(a_4\lor a_5))$}
+                child {node {$a_2$}}
+                child {node {$a_3\land(a_4\lor a_5)$}
+                    child {node {$a_3 , a_4\lor a_5$}
+                        child {node {$a_4$}}
+                        child {node {$a_5$}}
+                        }
+                }
+            };
+        \end{tikzpicture}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Résolution}
+    \textbf{Proposition d'Algorithme ($\mathcal{O}(n)$, correction prouvé):}
+    \begin{enumerate}
+        \item Fin de l'arbre: Renvoyer Vrai
+        \item Feuille gauche: SI Pas Contradiction, Renvoyer Vrai
+        \item Feuille droite: SI Contradiction, Renvoyer Faux SINON Appel Recursif
+        
+    \end{enumerate}
+    \begin{tikzpicture}[level distance=8mm]
+        \node {$a$}
+            child {node {$\lnot a$}}
+            child {node {$b$}
+            child {node {$c$}}
+            child {node {$d$}}};
+    \end{tikzpicture}
+    \pause
+
+    \vspace{10px}
+    Pour 100 Formes alternées, temps d'execution:
+    \begin{itemize}
+        \item \textbf{Alternée:} 0.000493s
+        \item \textbf{Quine (avec conversion en CNF):} 0.025874s
+        \item \textbf{Quine (sans conversion en CNF):} 0.018691s
+    \end{itemize} 
+
+\end{frame}
+ 
+\begin{frame}{Conclusion}
+    \textbf{Quelques Remarques}
+    \begin{itemize}[<+->]
+        \item Conversion IMPOSSIBLE
+        \item Méthode des tableaux en logique Propositionelle ?
+        \item Réelle application de la méthode ?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Definitions 1/2}
+    \begin{definition}[Formule de la LTL]
+        On définit $F$ l'ensemble des formules de la LTL inductivement par:
+        \begin{itemize}
+            \item $p\in AP \implies p\in F$
+            \item si $\psi$ et $\phi$ sont des formules de LTL alors $\lnot\psi, \phi\lor\psi, X\psi, \phi U\psi, F\psi, G\psi$ sont des formules de LTL
+        \end{itemize}
+        $AP$ un ensemble fini de variables propositionnelles.
+    \end{definition}
+    \pause
+    \begin{definition}[Opérateurs X, U, F, G]
+            \begin{itemize}
+                \item $X\phi$ : $\phi$ doit être satisfaite dans l'état suivant (neXt)
+                \item $\psi U\phi$ : $\psi$ doit être satisfaite dans tous les états jusqu'à un état où $\phi$ est satisfait (Until)
+                \item $F\phi$ : $\phi$ doit être satisfaite une fois plus tard (Finally)
+                \item $G\phi$ : $\phi$ doit être satisfaite dans tous les états futurs (Globally)
+            \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Definitions 2/2}
+     \begin{definition}[Valuation]
+        On définit un tel objet comme $\omega := w_0,w_1,\dots$ une suite infinie de monde.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Pourquoi ?}
+    \textbf{Pourquoi la LTL ?}
+    \begin{itemize}
+        \item Preuve de programme concurrentiel
+        \item Raisonnement sur des circuits intégrés
+        \item Raisonnement sur les protocoles de communications
+    \end{itemize}
+    \begin{definition}[Verification de modèle (Model Checking)]
+    Technique automatique qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles,
+    vérifie systématiquement si ces propriétés restent vrai pour ce modèle. (Principles of Model Checking de C.Baier, JP.Katoen)
+    \end{definition}
+
+\end{frame}
+
+\begin{frame}{Méthode des tableaux}
+    \textbf{La méthode des tableaux dans tout cela ?}
+    \begin{itemize}
+        \item Utiliser dans les algorithmes de vérification de modèle
+        \item Problème de ces algorithmes
+    \end{itemize}
+    \pause
+    \vspace{10px}
+    \textbf{Etude interessante à faire:}
+    Comment modéliser à partir de la LTL un système et ces contraintes ?
+    \pause
+    Pour répondre à cela:
+    \begin{itemize}
+        \item On va prendre un exemple de système et le modéliser
+        \item On comparera ce qu'on a produit à la litterature
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Définition du système}
+    \textbf{Compteur Binaire Modulo 4: } Tout les quatres cycles, il renvoie 1 (vrai) sinon 0 (faux).
+    \vspace{10px}
+
+    \pause
+    Hypothèse: Le compteur est fait par des circuits logiques (on a 2 ampoules)
+    On notera formellement les ampoules $\varphi_1$, $\varphi_2$ et la valeur renvoyé $r$
+\end{frame}
+
+\begin{frame}{Contraintes}
+    \textbf{Propriétés}
+    \begin{itemize}
+        \item L'ampoule $2$ change toujours de valeur
+        \item L'ampoule $1$ change ssi $\varphi_2$
+        \item $r$ ssi les deux ampoules sont eteintes
+    \end{itemize}
+    \pause
+    \textbf{Traduction}
+    \begin{itemize}
+        \item $G(\varphi_2 \Leftrightarrow X(\lnot\varphi_2))$
+        \item $G(\varphi_2\Leftrightarrow(\varphi_1 \Leftrightarrow X(\lnot\varphi_1)))$
+        \item $G(r \Leftrightarrow \lnot(\varphi_1\lor\varphi_2))$
+    \end{itemize}
+    \pause
+    \textbf{Remarque: } $G$ est essentiel
+\end{frame}
+
+\begin{frame}{Modèle}
+\centering
+\begin{tikzpicture}[>=Stealth]
+  % nodes at explicit coordinates
+  \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s00) at (0,1.5) {00};
+  \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s01) at (3,1.5) {01};
+  \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s10) at (3,0)   {10};
+  \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s11) at (0,0)   {11};
+
+  % small annotations (use math mode for underscores/comma)
+  \node at (-1,0.8) {$r$};
+  \node at (1.5,1.9)  {$\varphi_2$};
+  \node at (4,0.8) {$\varphi_1$};
+  \node at (1.5,-0.4) {$\varphi_1, \varphi_2$};
+
+  % edges (square)
+  \draw[->] (s00) -- (s01);
+  \draw[->] (s01) -- (s10);
+  \draw[->] (s10) -- (s11);
+  \draw[->] (s11) -- (s00);
+
+ 
+
+  % self-loop on s00
+\draw[->] (-0.5,2) -- (s00.north);
+\end{tikzpicture}
+\begin{center}
+    \textbf{Proposition de système de transition}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Comparaison}
+    Quand on regarde la littérature (en particulier Principles of Model Checking de C.Baier, JP.Katoen):
+    \begin{itemize}
+        \item Même système de transition
+        \item $G(r\Leftrightarrow\lnot\varphi_1\land\lnot\varphi_2)$ similaire
+        \item $G(\varphi_1 \implies(Xr \lor XXr))$
+        \item $G(r\implies (X\lnot r \land  XX\lnot r))$
+        \item $G(r\lor Xr\lor XXr \lor XXXr)$
+        \item $G(r\implies(X\lnot r \land XX\lnot r \land XXX \lnot r))$
+    \end{itemize}
+    \pause
+    \textbf{Remarques:}
+    \begin{itemize}
+        \item A priori, cycle modulo 4 pas assuré par mes contraintes
+        \item Ce n'est pas une preuve de correction
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \textbf{1er Etude: }nous a permit de nous familiariser avec la méthode des tableaux et de trouver une famille de formule qu'elle résout facilement.
+
+    \textbf{2eme Etude: }nous a apprit que cette algorithme est utilisé pour faire de la vérification de modèle. Après étude d'un algorithme de vérification
+    de modèle utilisant la méthode des tableaux, on a pu via un exemple étudier la manière dont les systèmes informatiques peuvent être modéliser et étudier
+    afin de limiter la présence de bugs.
+\end{frame}
+
+\end{document}
