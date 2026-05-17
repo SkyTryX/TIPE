@@ -155,8 +155,6 @@
         \item Méthode des tableaux en logique propositionelle ?
         \item Réelle application de la méthode ?
     \end{itemize}
-
-    PHOTO METHODE DES TABLEAUX
 \end{frame}
 
 \begin{frame}{Definitions 1/2}
@@ -184,7 +182,14 @@
         On définit un tel objet comme $\omega := w_0,w_1,\dots$ une suite infinie de monde.
     \end{definition}
 
-    AJOUTE UNE IMAGE DE TIMELINE LTL
+
+\begin{tikzpicture}[>=stealth, thick, scale=1]
+  \draw[->] (-1,0) -- (6,0) node[right] {$\omega$};
+  \foreach \x in {0,1,2,3,4}
+    \draw (\x,0.08) -- (\x,-0.08) node[below=4pt] {$w_\x$};
+  \draw (5,0.08) -- (5,-0.08) node[below=4pt] {\dots};
+\end{tikzpicture}
+
 \end{frame}
 
 \begin{frame}{Pourquoi ?}
@@ -226,8 +231,6 @@
     \pause
     Hypothèse: Le compteur est fait par des circuits logiques (on a 2 ampoules)
     On notera formellement les ampoules $\varphi_1$, $\varphi_2$ et la valeur renvoyé $r$
-
-    AJOUTER PHOTO COMPTEUR BINAIRE
 \end{frame}
 
 \begin{frame}{Contraintes}
@@ -304,12 +307,10 @@
         \item Etude de la résolution de SAT et familiarisation avec la méthode 
         \item Application et discution à propos des algorithmes utilisant cette méthode
     \end{itemize}
-
-    AJOUTER IMAGE BILAN
 \end{frame}
 
- \inputminted[]{ocaml}{Code/Alternee_Tableau.ml}
- \inputminted[]{python}{Code/PropGenerator.py}
- \inputminted[]{ocaml}{Code/quine.ml}
+\inputminted[]{ocaml}{Code/Alternee_Tableau.ml}
+\inputminted[]{python}{Code/PropGenerator.py}
+\inputminted[]{ocaml}{Code/quine.ml}
 
 \end{document}
