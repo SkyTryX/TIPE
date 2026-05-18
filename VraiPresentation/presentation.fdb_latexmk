@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1779037319.69134 "/home/dorian/Documents/School/TIPE/VraiPresentation/presentation.tex" "presentation.pdf" "presentation" 1779037327.95737 0
-  "/home/dorian/Documents/School/TIPE/VraiPresentation/presentation.tex" 1779037289.26892 10741 2db09c83a1ee84660553d6dbc1444dd3 ""
+["pdflatex"] 1779087227.3693 "/home/dorian/Documents/School/TIPE/VraiPresentation/presentation.tex" "presentation.pdf" "presentation" 1779087235.96395 0
+  "/home/dorian/Documents/School/TIPE/VraiPresentation/presentation.tex" 1779087225.32989 10817 cdb7d6284691844af2d3033279487c98 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -288,11 +288,11 @@
   "_minted/D3E9B0D289B908894015D219555CD4D8.highlight.minted" 1779035609.82097 11261 859e1641613445ea8120f26a1ea2cdec ""
   "_minted/_2486923A98E77FD0740381D01ACD1782.index.minted" 1779035613.26297 384 55bde3bd9437ac9b6224cd1bdf72c5be ""
   "_minted/default.style.minted" 1779035040.10799 6426 e1fb43a91491f41b33310478eee48cdb ""
-  "presentation.aux" 1779037327.62292 3503 b785a0c022be0c504671cd2588f6a5d4 "pdflatex"
-  "presentation.nav" 1779037327.62592 1501 423fdde9e39c5d1018c78b0eeb99a4e1 "pdflatex"
-  "presentation.out" 1779037321.64792 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "presentation.tex" 1779037289.26892 10741 2db09c83a1ee84660553d6dbc1444dd3 ""
-  "presentation.vrb" 1779037322.72192 846 0cdec7ba65e366f8eddaa6f870b73266 "pdflatex"
+  "presentation.aux" 1779087235.59189 3503 b785a0c022be0c504671cd2588f6a5d4 "pdflatex"
+  "presentation.nav" 1779087235.59489 1501 423fdde9e39c5d1018c78b0eeb99a4e1 "pdflatex"
+  "presentation.out" 1779087229.39889 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "presentation.tex" 1779087225.32989 10817 cdb7d6284691844af2d3033279487c98 ""
+  "presentation.vrb" 1779087230.47489 846 0cdec7ba65e366f8eddaa6f870b73266 "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"
