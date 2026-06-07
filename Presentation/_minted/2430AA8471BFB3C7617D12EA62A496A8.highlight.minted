@@ -1,0 +1,38 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* Etats: 0=00, 1=01, 2=10, 3=11 */}
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{k+kd}{mtype}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{S0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{S1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{S2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{S3}\PYG{p}{\PYGZcb{};}
+\PYG{k+kd}{mtype}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{S0}\PYG{p}{;}\PYG{+w}{                             }
+
+\PYG{k+kd}{proctype}\PYG{+w}{ }\PYG{n}{System}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k}{do}
+\PYG{+w}{  }\PYG{o}{::}\PYG{+w}{ }\PYG{k}{atomic}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{       }\PYG{k}{if}
+\PYG{+w}{       }\PYG{o}{::}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S0}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{       }\PYG{o}{::}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}\PYG{+w}{  }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{       }\PYG{o}{::}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}\PYG{+w}{  }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{       }\PYG{o}{::}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S3}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}\PYG{+w}{  }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}\PYG{+w}{  }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{       }\PYG{k}{fi}\PYG{p}{;}
+\PYG{+w}{     }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{o}{::}\PYG{+w}{ }\PYG{k}{atomic}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S0}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{S1}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{o}{::}\PYG{+w}{ }\PYG{k}{atomic}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{S2}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{o}{::}\PYG{+w}{ }\PYG{k}{atomic}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{S3}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{o}{::}\PYG{+w}{ }\PYG{k}{atomic}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{S3}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{state}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{S0}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k}{od}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/* lance le proctype (ne sert plus à initialiser les valeurs) */}
+\PYG{k+kd}{init}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{o+ow}{run}\PYG{+w}{ }\PYG{n}{System}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{ltl}\PYG{+w}{ }\PYG{n}{p1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{o}{[]}\PYG{+w}{ }\PYG{p}{(}\PYG{+w}{ }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{X}\PYG{p}{(}\PYG{o}{!}\PYG{n}{phi2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{ltl}\PYG{+w}{ }\PYG{n}{p2}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{o}{[]}\PYG{+w}{ }\PYG{p}{(}\PYG{+w}{ }\PYG{n}{phi2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{X}\PYG{p}{(}\PYG{o}{!}\PYG{n}{phi1}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{ltl}\PYG{+w}{ }\PYG{n}{p3}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{o}{[]}\PYG{+w}{ }\PYG{p}{(}\PYG{+w}{ }\PYG{n}{r}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{o}{!}\PYG{p}{(}\PYG{n}{phi1}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{phi2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+cm}{/* COMMANDE A EXECUTER}
+\PYG{c+cm}{    spin \PYGZhy{}a modulo4.pml}
+\PYG{c+cm}{    gcc \PYGZhy{}O2 \PYGZhy{}o pan pan.c}
+\PYG{c+cm}{    ./pan \PYGZhy{}a \PYGZhy{}N p1/p2/p3}
+\PYG{c+cm}{    */}
+\end{MintedVerbatim}

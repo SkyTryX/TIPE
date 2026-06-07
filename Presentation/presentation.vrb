@@ -1,8 +1,24 @@
-\frametitle{Code - LTL SAT}
-\begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                        A Ajouter
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}
+\frametitle{Résolution}
+\textbf{Proposition d'algorithme ($\mathcal{O}(n)$, correction prouvé):}
+    \begin{enumerate}
+        \item Fin de l'arbre: Renvoyer Vrai
+        \item Feuille gauche: SI Pas Contradiction, Renvoyer Vrai
+        \item Feuille droite: SI Contradiction, Renvoyer Faux SINON Appel Recursif
+    \end{enumerate}
+    \begin{tikzpicture}[level distance=8mm]
+        \node {$a$}
+            child {node {$\lnot a$}}
+            child {node {$b$}
+            child {node {$c$}}
+            child {node {$d$}}};
+    \end{tikzpicture}
+    \pause
+
+    \vspace{10px}
+    Pour 100 Formes alternées, temps d'execution:
+    \begin{itemize}
+        \item \textbf{Alternée:} 0.000493s
+        \item \textbf{Quine (avec conversion en CNF):} 0.025874s
+        \item \textbf{Quine (sans conversion en CNF):} 0.018691s
+    \end{itemize}
+

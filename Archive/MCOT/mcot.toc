@@ -1,8 +1,0 @@
-\contentsline {section}{\numberline {1}Positionnements thématiques et mots-clés}{1}{}%
-\contentsline {subsection}{\numberline {1.1}Thème}{1}{}%
-\contentsline {subsection}{\numberline {1.2}Mots clés - Français}{1}{}%
-\contentsline {subsection}{\numberline {1.3}Key words - English}{1}{}%
-\contentsline {section}{\numberline {2}Bibliographie commentée}{1}{}%
-\contentsline {section}{\numberline {3}Problématique retenue}{1}{}%
-\contentsline {section}{\numberline {4}Objectifs du TIPE}{2}{}%
-\contentsline {section}{\numberline {5}Liste de références bibliographiques}{2}{}%

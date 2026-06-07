@@ -1,19 +1,33 @@
-\documentclass[]{beamer}
-\usepackage{tikz,lstautogobble,listings}
-\usetikzlibrary{arrows.meta}
+\documentclass{beamer}
 \usetheme{Rochester}
+\usepackage[french]{babel}
+\usepackage{tikz,lstautogobble,listings, minted}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usetikzlibrary{trees,shapes,arrows.meta,positioning}
-\lstset{
-  language=caml,
-  basicstyle=\ttfamily\tiny,
-  breaklines=true,
-  autogobble=true,
+
+\usetikzlibrary{trees,shapes,arrows.meta,positioning, automata, calc}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[text line]{%
+\parbox{\linewidth}{\insertshortauthor\hfill\insertframenumber / \inserttotalframenumber}}
+
+
+\setminted[ocaml]{	                               
+	linenos=true, numbersep=4pt, xleftmargin=20pt,      %--numéro de ligne
+	breaklines=true                                    %--découpage des longues lignes
+}
+\setminted[python]{	                               
+	linenos=true, numbersep=4pt, xleftmargin=20pt,      %--numéro de ligne
+	breaklines=true                                    %--découpage des longues lignes
+}
+\setminted[promela]{	                               
+	linenos=true, numbersep=4pt, xleftmargin=20pt,      %--numéro de ligne
+	breaklines=true                                    %--découpage des longues lignes
 }
 
+\theoremstyle{definition}
+\newtheorem{mydef}[theorem]{Définition}
 
-\title{Méthode des tableaux: Application en logique propositionelle et en logique linéaire temporelle}
+\title{Méthode des tableaux: Applications dans différentes logiques}
 \author{GIL Dorian - Candidat n°20220}
 \subtitle{TIPE 25/26 - Cycles et Boucles}
 \date{}
@@ -24,14 +38,45 @@
 \titlepage
 \end{frame}
 
-\begin{frame}{Intro - Positionnement}
-    \begin{itemize}[<+->]
-        \item On souhaite étudier une méthode algorithmique permettant de montrer la satisfiabilité d'une formule: la Méthode des tableaux.
-        \item Elle consiste à construire un arbre avec la formule à la racine, et à utiliser des règles pour développer et créer des branches.
-        \item On regarde ensuite si il y a des contradictions dans toutes les branches, si c'est le cas, la formule est insatisfaisable.
-        \item Cette méthode est utilisé dans diverses logiques, pour l'instant, on se restreint à la logique propositionnelle.
+\begin{frame}{Contexte}
+    \textbf{Objectif:} Explorer l'intérêt dans l'industrie d'un algorithme abstrait: la Méthode des tableaux.
+    \pause
+    \vspace{10px}
+    
+    En particulier:
+    \begin{itemize}
+        \item Problème SAT
+        \item Vérification de Modèle
     \end{itemize}
+\end{frame}
 
+\begin{frame}{Définitions}
+    \begin{mydef}[Logique Propositionelle]
+        On la définit inductivement par
+        \begin{itemize}
+            \item $V, F$ sont des formules
+            \item les variables booléennes sont des formules
+            \item Si $\alpha$ est une formule, $\lnot\alpha$ (NON alpha) est une formule
+            \item Si $\alpha, \beta$ est une formule, $\alpha\land\beta$ (ET), $\alpha\lor\beta$ (OU) sont des formules.
+        \end{itemize}
+    \end{mydef}
+    \begin{mydef}[Litteraux]
+        Variable ou la négation d'une variable.
+    \end{mydef}
+
+\end{frame}
+
+\begin{frame}{Comment résoudre SAT ?}
+    \begin{center}
+        \textbf{La Méthode des tableaux (Logique Propositionelle)}
+
+        \textit{Algorithme de résolution du problème SAT}
+    \end{center}
+    \pause
+    \begin{center}
+        \textbf{Règle d'inférence:}    
+    \end{center}
+    \begin{center}
     \begin{tikzpicture}[scale=0.75]
     \node {$\phi\lor\psi$}
         child {node {$\phi$}}
@@ -53,46 +98,30 @@
     \begin{tikzpicture}[scale=0.75]
     \node {$\lnot(\phi\lor\psi)$}
         child {node {$\lnot\phi, \lnot\psi$}};
-   \end{tikzpicture}
-\end{frame}
-
-\begin{frame}[fragile]{Intro - Exemple}
-\centering
-    \begin{tikzpicture}[
-    level distance=15mm,
-    sibling distance=34mm,
-    edge from parent/.style={draw,-{Latex[]}},
-    every node/.style={font=\scriptsize},
-    box/.style={draw, rounded corners, inner sep=3pt, align=left, text width=48mm}
-    ]
-    \node[box] (root) {1. $\lnot\bigl(a\Rightarrow(b\Rightarrow a)\bigr)$}
-        child { node[box] (n) {2. $a$, $\lnot(b\Rightarrow a)$  (Règle $\lnot\Rightarrow$)}
-        child { node[box] (m) {3. $b$, $\lnot a$ (Règle $\lnot\Rightarrow$)}
-        }
-    };
-    \draw[->, red, thick] (m.south) .. controls +(8mm,-8mm) and +(8mm,8mm) .. (n.north);
     \end{tikzpicture}
-    
-    Contradiction: $a$ (2) et $\lnot a$ (3). Conclusion, cette formule n'est pas satisfiable.
-\end{frame}
-
-\begin{frame}{LP - Définition de l'étude}
-    Après l'avoir implémenter, j'ai décidé de me resteindre à une forme particulière de formule logique.
-    \begin{definition}[Forme Alternée]
-        Soit $n\in\mathbb{N}^*$, et $(a_k)_{k\in [|1,n|]}$ des litteraux, on dit que $\varphi$ est de forme alternée ssi
-        $$\varphi = a_1\land(a_2\lor(a_3\land(\dots(a_n))))$$
-    \end{definition}
+    \end{center}
     \pause
-    Notre but en faisant une restriction du problème est:
-    \begin{itemize}
-        \item De mieux comprendre les avantages de cette méthode (dans quelle type de formule la méthode est-elle meilleur ?)
-        \item De trouver des algorithmes polynomiales pour nos restrictions (si ce n'est possible, alors on améliorera aux maximum l'algorithme)
-    \end{itemize}
+    \textbf{Exemple avec $a\land \lnot a$ :}
+
+    \begin{tikzpicture}[scale=0.75]
+    \node {$a\land\lnot a$}
+        child {node {$a, \lnot a$}};
+    \end{tikzpicture} 
 \end{frame}
 
-\begin{frame}{LP - reécriture}
-    On re-écrit l'arbre induit par la méthode des tableaux d'une manière différente (ici pour $\varphi = a_1\land(a_2\lor(a_3\land(a_4\lor a_5)))$):
-    
+\begin{frame}{Étude introductive}
+    \begin{mydef}[Forme Alternée]
+        Soit $n\in\mathbb{N}^*$, et $(a_k)_{k\in [|1,n|]}$ des litteraux, on dit que $\varphi$ est de forme alternée ssi
+        $\varphi = a_1\land(a_2\lor(a_3\land(\dots(a_n))))$
+    \end{mydef}
+    \pause
+    \begin{center}
+        \textbf{Objectif de l'étude introductive ? (Optimisable ?, Interêt)} 
+    \end{center}
+    \pause
+    \begin{center}
+        \textbf{Une re-écriture:} 
+    \end{center}
     \begin{columns}[t]
     \begin{column}{0.30\textwidth}
         \centering
@@ -108,7 +137,7 @@
     \begin{column}{0.10\textwidth}
     \centering
     \begin{tikzpicture}[x=1mm,y=1mm]
-      \draw[<-, thick, black] (-10,0) .. controls +(4,6) and +(-4,6) .. (4,0);
+      \draw[<-, thick, black] (-10,0) .. controls +(4,0) and +(-4,-4) .. (4,-4);
     \end{tikzpicture}
   \end{column}
 
@@ -128,16 +157,15 @@
         \end{tikzpicture}
     \end{column}
     \end{columns}
-
 \end{frame}
 
-\begin{frame}{LP -  Résolution}
-    L'algorithme récursif consiste à faire ces analyses (en créant un dictionnaire stockant le "signe" des litteraux):
+\begin{frame}[fragile]{Résolution}
+    \textbf{Proposition d'algorithme ($\mathcal{O}(n)$, correction prouvé):}
     \begin{enumerate}
-        \item On analyse le litteral droit, si il y a contradiction, l'arbre est fermé, sinon on ajoute eventuellement dans le dictionnaire le litteral
-        \item On analyse le litteral gauche, si il produit une contradiction, appel recursif plus profond dans l'arbre, sinon la formule est satisfiable
+        \item Fin de l'arbre: Renvoyer Vrai
+        \item Feuille gauche: SI Pas Contradiction, Renvoyer Vrai
+        \item Feuille droite: SI Contradiction, Renvoyer Faux SINON Appel Recursif
     \end{enumerate}
-    Le cas de base étant l'arrivée au bout du peigne.
     \begin{tikzpicture}[level distance=8mm]
         \node {$a$}
             child {node {$\lnot a$}}
@@ -145,437 +173,177 @@
             child {node {$c$}}
             child {node {$d$}}};
     \end{tikzpicture}
-\end{frame}
+    \pause
 
-\begin{frame}{LP - Preuves et Analyse}
-    L'algorithme est en $\mathcal{O}(n)$, en supposant les opérations Hashtbl constantes.
-    \pause
-    \begin{itemize}
-        \item La correction (preuve faite) est assuré par l'invariant "Toutes les branches déjà traités sont fermés"
-        \item La terminaison (preuve faite) est assuré simplement.
-    \end{itemize}
-    \pause
-    On créé une base de donnée de 100 formules de forme alternée et on fait tourner Quine et notre algorithme dessus.
+    \vspace{10px}
+    Pour 100 Formes alternées, temps d'execution:
     \begin{itemize}
         \item \textbf{Alternée:} 0.000493s
-        \item \textbf{Méthode des tableaux:} \dots
         \item \textbf{Quine (avec conversion en CNF):} 0.025874s
         \item \textbf{Quine (sans conversion en CNF):} 0.018691s
     \end{itemize} 
+
 \end{frame}
  
-\begin{frame}{LP - Conclusion}
-    \textbf{Remarques:}
-    \begin{itemize}
-        \item Bien entendu, il n'est pas possible de convertir toutes les formules en Alternée.
-        \item On a donc trouvé un exemple de type de formule qui est facile à analyser par méthode des tableaux.
+\begin{frame}{Conclusion intermédiaire}
+    \textbf{Quelques Remarques}
+    \begin{itemize}[<+->]
+        \item Conversion IMPOSSIBLE (Exemple: $a_1\lor a_2$)
+        \item Interêt SAT dans l'industrie
+        \item Interêt de l'algorithme pour SAT ?
+        \item Réelle application de la méthode ?
     \end{itemize}
-    Maintenant que nous avons une meilleur compréhension de l'algorithme, 
-    nous allons maintenant ellargir notre étude et s'interesser à la logique linéaire temporelle (LTL).
 \end{frame}
 
-\begin{frame}{LTL - Intro 1}
-    \begin{definition}[Formule de la LTL]
-        On définit $F$ l'ensemble des formules de la LTL inductivement par:
-        \begin{itemize}
-            \item $p\in AP \implies p\in F$
-            \item si $\psi$ et $\phi$ sont des formules de LTL alors $\lnot\psi, \phi\lor\psi, X\psi, \phi U\psi, F\psi, G\psi$ sont des formules de LTL
-        \end{itemize}
-        $AP$ un ensemble fini de variables propositionnelles.
-    \end{definition}
-    \pause
-    \begin{definition}[Opérateurs X, U, F, G]
-            \begin{itemize}
-                \item $X\phi$ : $\phi$ doit être satisfaite dans l'état suivant (neXt)
-                \item $\psi U\phi$ : $\psi$ doit être satisfaite dans tous les états jusqu'à un état où $\phi$ est satisfait (Until)
-                \item $F\phi$ : $\phi$ doit être satisfaite une fois plus tard (Finally)
-                \item $G\phi$ : $\psi$ doit être satisfaite dans tous les états futurs (Globally)
-            \end{itemize}
-    \end{definition}
-\end{frame}
-
-\begin{frame}{LTL - Intro 2}
-     \begin{definition}[Monde]
-        On définit un tel objet comme $\omega := w_0,w_1,\dots$ une suite infinie d'état.
-        On écrira $\omega^i:=w_i,w_{i+1},\dots$ un suffixe de $\omega$.
-    \end{definition}
-    \pause
-    Soit $v : \omega\times F \rightarrow \{T,F\}$ une fonction de valuation.
-    \begin{definition}[Satisfaction d'un monde ($\omega \models f$)]
-        \begin{itemize}
-            \item $\omega \models a \Leftrightarrow v(w_0,a) = T$ si $a$ atomique 
-            \item $\omega \models \lnot f$ si $\lnot(\omega \models f)$ 
-            \item $\omega \models f\lor g$ si $\omega \models f$ ou $\omega \models g$
-            \item $\omega \models \textbf{X}f$ si $\omega^1 \models f$
-            \item $\omega \models f\textbf{U}g$ si $\omega \models g$ ou $\omega \models f\land\textbf{X}(f\textbf{U}g)$
-            \item $\omega \models \textbf{F}f$ si $\exists i, \omega^i \models f$
-            \item $\omega \models \textbf{G}f$ si $\forall i, \omega^i \models f$
-        \end{itemize}
-    \end{definition}
-\end{frame}
-
-\begin{frame}{LTL - Intro 3}
-    On peut trouver plusieurs applications à la LTL:
-    \begin{itemize}
-        \item Preuve de programme concurrentiel
-        \item Raisonnement sur des circuits intégrés
-        \item Raisonnement sur les protocoles de communications
-    \end{itemize}
-    \pause
-    Toutes ces applications s'inscrivent dans le cadre de la vérification de modèles qui est une méthode permettant de montrer
-    la correction de systèmes informatiques complexes.
-    \pause
-    \begin{definition}[Verification de modèle (Model Checking)]
-    Technique automatique qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles,
-    vérifie systématiquement si ces propriétés restent vrai pour ce modèle
-    \end{definition}
-\end{frame}
-
-\begin{frame}{LTL - Verification de Modèle}
-    Ici, nous nous interesserons pas aux techniques utilisés dans le domaine.
-    On retiendra seulement que la méthode des tableaux est très utilisé dans la logique modale qui englobe la LTL et que
-    elle est particulièrement utile pour certaines techniques de vérifications de modèles. 
-    
-    Ainsi, nous allons étudier un exemple de formule de la LTL et étudier sa résolution par méthode des tableaux.
-\end{frame}
-
-\begin{frame}{LTL - Implementation utilisée}
-    En réalité, la version de la méthode des tableaux que je présente en LTL est celle de Mark Reynolds, qui est une approche "tree-style"
-    plus simple que les autres implémentations, mais qui reste correct.
-    Faire une bonne implémentation d'une telle méthode reste assez fastidieux et il n'est pas astucieux ici de créer nous même
-    une implémentation. C'est pour ça que l'on va s'aider de l'implémentation de Anatole Leterrier trouvable ici:
+\begin{frame}{Contexte}
     \begin{center}
-        https://github.com/anatcaramba/LTL-SAT-Solver-by-Reynolds-Tableaux
+        \textbf{La Méthode des tableaux (Logique Temporelle Linéaire)}
+        \textit{Algorithme utilisé en vérification de modèle}
     \end{center}
-
-    Nous allons maintenant étudier une application de la méthode des tableaux.
+    \begin{mydef}[Verification de modèle (Model Checking)]
+    Technique automatique qui étant donné un modèle à nombre d'état fini d'un système et des propriétés formelles,
+    vérifie systématiquement si ces propriétés restent vrai pour ce modèle.
+    \end{mydef}
+    \begin{mydef}[Logique Linéaire Temporelle (LTL)]
+    Logique propositionnelle avec dépendance discrète en temps
+    \end{mydef}
+    \pause
+    \textbf{Pourquoi la LTL ?} (Raisonnement sur des circuits intégrés...)
 \end{frame}
 
-\begin{frame}{LTL - Méthode des tableaux 1}
-    On rajoute donc les règles suivantes:
-    
-    \begin{tikzpicture}[scale=0.75, level 1/.style={sibling distance=3cm}]
-    \node {$\phi\textbf{U}\psi$}
-        child {node {$\psi$}}
-        child {node {$\phi, \textbf{X}(\phi\textbf{U}\psi)$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\textbf{F}\phi$}
-        child {node {$\phi$}}
-        child {node {$\textbf{XF}\phi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node{$\textbf{G}\phi$}
-        child {node {$\phi, \textbf{XG}\phi$}};
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=0.75, level 1/.style={sibling distance=3cm}]
-    \node {$\lnot(\phi\textbf{U}\psi)$}
-        child {node {$\lnot\psi, \lnot\phi$}}
-        child {node {$\lnot\psi, \textbf{X}\lnot(\phi\textbf{U}\psi)$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot(\textbf{F}\phi)$}
-        child {node {$\lnot\phi, \textbf{X}\lnot\textbf{F}\phi$}};
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=0.75]
-    \node {$\lnot(\textbf{G}\phi)$}
-        child {node {$\lnot\phi$}}
-        child {node {$\textbf{X}\lnot\textbf{G}\phi$}};
-    \end{tikzpicture}
-
-    En plus on rajoute des règles supplémentaires:
-    \begin{definition}
-        On rappelle \textbf{X-eventualite} les formules de la forme $\textbf{X}(a\textbf{U}b)$ et $\textbf{XF}b$   
-    \end{definition}
-    On notera $x\leq y$ si $y$ est descendant de $x$ (resp < pour descendant strict)
-\end{frame}
-
-\begin{frame}{LTL - Méthode des tableaux 2}
+\begin{frame}{Principe de l'algorithme}
+    \textbf{Hypothèse:}
     \begin{itemize}
-        \item \textbf{LOOP:} Si un noeud $v$ a un ancètre strict $u$ tq $\Gamma_v \subseteq \Gamma_u$ et pour chaque $\textbf{X}(a\textbf{U}b)$ ou  $\textbf{XF}b$ dans $\Gamma_u$, il existe un noeud $w$ tq $b\in\Gamma_w$ et $u < w \leq v$ alors la formule de départ est satisfiable.
-        \item \textbf{PRUNE:} Si $u < v < w$ et ont les mêmes hypothèses $\Gamma$ et que pour chaque $\textbf{X}(a\textbf{U}b)$ ou $\textbf{XF}b$ dans $\Gamma$, si on a $x$ tq $b\in\Gamma_x$ et $v < x \leq w$ alors $\exists y, b\in\Gamma_y$ et $u < y \leq v$ et $w$ ferme sa branche.
-        \item \textbf{PRUNE$_0$:} Si $u < v$ et ont les mêmes hypothèses $\Gamma$ et que il y a au u moins une formule X-eventuelle, mais pas de formule de la forme $\textbf{X}(a\textbf{U}b)$ ou $\textbf{XF}b$ dans $\Gamma$ où $\exists x, b\in\Gamma_x$ et $u < x \leq v$ alors $v$ ferme sa branche.
-        \item \textbf{TRANSITION:} Si aucune des autres règles ne s'applique, alors un noeud étiqueté par $\Gamma$ peut avoir un enfant dont l'étiquette est $\Delta = \{a | Xa\in\Gamma\}\bigcup\{\lnot a | \lnot Xa\in\Gamma\}$
+        \item On admet l'existence de algorithme
+        \item Il utilise la méthode des tableaux
     \end{itemize}
-\end{frame}
-
-\begin{frame}{LTL - Introduction de l'Etude}
-    \textbf{Remarques:}
+    \pause
+    \vspace{10px}
+    \textbf{Idée de l'algorithme}
     \begin{itemize}
-        \item Grâce à toutes ces règles, on peut montrer qu'un tel algorithme de résolution de SAT est complet et correct (il renvoie vrai si la formule est satisfiable et reciproquement).
-        \item On sait que typiquement, les propriétés que doivent satisfaire notre modèle est modélisé par des formules logiques en LTL.
+        \item Des conditions (Formule logique en LTL)
+        \item Un modèle (Système de Transition)
+        \item Renvoie un retour sur la compatibilité des deux
     \end{itemize}
-
-    Ainsi nous allons nous interesser à la modélisation d'un objet technologique en LTL, en observant les hypothèses, que l'on fait etc... 
+    \vspace{10px}
+    Appliquons l'algorithme sur le système suivant:
     
-    In fine, on pourra appliquer la méthode des tableaux pour conclure sur le bon fonctionnement de tout!
+    \textbf{Compteur Binaire Modulo 4: } Tout les quatres cycles, il renvoie 1 (vrai) sinon 0 (faux).
 \end{frame}
 
-\begin{frame}{LTL Etude - Définition système}
-    \begin{definition}[Système]
+\begin{frame}{Système de Transitions}
+    \begin{mydef}[Système de transition]
+        C'est un automate qui prend en paramètre
         \begin{itemize}
-            \item On définit le système qu'on va étudié comme étant un compteur binaire modulo 4, constitué de deux ampoules et d'un bouton.
-            \item Son but: faire un compteur qui à chaque fois que le bouton est appuyé, on incrémente le compteur.
-        \end{itemize}
-    \end{definition}
-    Automates des transitions du système:
-    \begin{tikzpicture}[
-        state/.style={circle,draw,minimum size=1.2cm},
-        arrow/.style={-{Stealth},thick},
-        label/.style={font=\small}
-        ]
+            \item $S$ un ensemble d'états, $I$ les états initiaux
+            \item $Act$ un ensemble d'actions
+            \item $\rightarrow$ une relation de transition ($S\times Act \rightarrow S$)
+            \item $AP$ un ensemble de variable
+            \item $L$ une fonction qui a un état associe une partie de $AP$
+        \end{itemize} 
+    \end{mydef}
 
-        \node[state] (S0) {$0, 00$};
-        \node[state, right=2cm of S0] (S1) {$1, 01$};
-        \node[state, right=2cm of S1] (S2) {$2, 10$};
-        \node[state, right=2cm of S2] (S3) {$3, 11$};
+    \centering
+    \begin{tikzpicture}[>=Stealth]
+    % nodes at explicit coordinates
+    \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s00) at (0,1.5) {00};
+    \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s01) at (3,1.5) {01};
+    \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s10) at (3,0)   {10};
+    \node[draw,rounded corners,minimum width=1.2cm,minimum height=0.7cm] (s11) at (0,0)   {11};
 
-        \draw[arrow] (S0) edge[bend left] node[label]{} (S1);
-        \draw[arrow] (S1) edge[bend left] node[label]{} (S2);
-        \draw[arrow] (S2) edge[bend left] node[label]{} (S3);
-        \draw[arrow] (S3) edge[bend left] node[label]{} (S0);
+    % small annotations (use math mode for underscores/comma)
+    \node at (-1,1.4) {$\{r\}$};
+    \node at (4,1.4)  {$\{\varphi_2\}$};
+    \node at (4,0) {$\{\varphi_1\}$};
+    \node at (-1.3,0) {$\{\varphi_1, \varphi_2\}$};
 
+    % edges (square)
+    \draw[->] (s00) -- (s01);
+    \draw[->] (s01) -- (s10);
+    \draw[->] (s10) -- (s11);
+    \draw[->] (s11) -- (s00);
+
+    
+
+    % self-loop on s00
+    \draw[->] (-0.5,2) -- (s00.north);
     \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{LTL Etude - Définition des états de notre système}
-    Plusieurs choix pour la définition de l'affichage:
-    \begin{itemize}
-        \item Comme dans l'automate, on fait pour chaque valeur une variable qui est vrai ssi le compteur prend cette valeur.
-        \item Chaque lumière est modélisé par une variable
-    \end{itemize}
-    Pour le bouton, on le modélisera par une variable qui est vrai ssi le bouton est pressé.
-
-    Pour l'affichage, on fait le deuxième choix pour limiter le nombre de variable en jeu.
-
-    On notera formellement les variable $\varphi_{l1}$, $\varphi_{l2}$ et $\varphi_b$.
-\end{frame}
-
-\begin{frame}{LTL Etude - Propriétés}
-    On propose les premières propriétés suivantes de manière naive:
-
+\begin{frame}{Contraintes}
     \textbf{Propriétés}
     \begin{itemize}
-        \item En tout temps, si le bouton est appuyé, la lumière $l2$ change forcement
-        \item En tout temps, si le bouton est appuyé, la lumière $l1$ change si $\varphi_{l2}$
+        \item L'ampoule $2$ change toujours de valeur
+        \item L'ampoule $1$ change ssi $\varphi_2$
+        \item $r$ ssi les deux ampoules sont éteintes
     \end{itemize}
+    \pause
     \textbf{Traduction}
     \begin{itemize}
-        \item $G(\varphi_{b} \implies (\varphi_{l2} \Leftrightarrow \lnot(X \varphi_{l2})))$
-        \item $G((\varphi_{b} \land \varphi_{l2}) \implies (\varphi_{l1} \Leftrightarrow \lnot(X \varphi_{l1})))$
+        \item $G(\varphi_2 \Leftrightarrow X(\lnot\varphi_2))$
+        \item $G(\varphi_2\Leftrightarrow(\varphi_1 \Leftrightarrow X(\lnot\varphi_1)))$
+        \item $G(r \Leftrightarrow \lnot(\varphi_1\lor\varphi_2))$
+    \end{itemize}
+    \pause
+    \textbf{Remarque: } 
+    \begin{itemize}
+        \item $G$ assure que la propriété reste vraie en tout temps
+        \item $X\alpha$ = Est ce que $\alpha$ est vraie au temps prochain ? ($X$ pour neXt)
     \end{itemize}
 \end{frame}
 
-\begin{frame}{LTL Etude - Autre Etude}
-    On va comparer avec une étude introductive posé dans Principes de vérifications de modèles p240 par
-    Christel Baier and Joost-Pieter Katoen.
-
-    (Description)
+\begin{frame}{Comparaison}
+    Source: Principles of Model Checking de C.Baier et JP.Katoen
+    \begin{itemize}
+        \item Même système de transition
+        \item $G(r\Leftrightarrow\lnot\varphi_1\land\lnot\varphi_2)$ similaire
+        \item $G(\varphi_1 \implies(Xr \lor XXr))$
+        \item $G(r\lor Xr\lor XXr \lor XXXr)$
+        \item $G(r\implies(X\lnot r \land XX\lnot r \land XXX \lnot r))$
+    \end{itemize}
+    
+    \pause
+    \textbf{Remarques:}
+    \begin{itemize}
+        \item A priori, cycle modulo 4 pas assuré par mes contraintes
+        \item Leur contrainte laisse libre l'ordre d'allumage des lumières
+        \item Ce n'est pas forcement une preuve de correction
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{LTL Etude - Comparaison}
-    (Comparaison)
+\begin{frame}{Exemple d'execution}
+    \textbf{Outil Test:} SPIN
+    
+    Compatibilité avec $G(r \Leftrightarrow \lnot(\varphi_1\lor\varphi_2))$ ?
+    \vspace{10px}
+
+    \textbf{Resultat (extrait):}
+
+    + Partial Order Reduction\\
+    full statespace search for:\\
+    never claim + (p3)\\
+    assertion violations + (if within scope of claim)\\
+    acceptance cycles + (fairness disabled)\\
+    invalid end states - (disabled by never claim)\\
+    \vspace{5px}
+
+    17 states, stored\\
+    17 states, matched\\
+    0 atomic steps\\
+    hash conflicts: 0 (resolved)
 \end{frame}
 
-\begin{frame}[fragile]{Code - Méthode des tableaux classique 1}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                type prop = | Var of string | Not of prop | And of prop * prop | Or  of prop * prop
-                (* Une branche c'est une liste de formule avec un signe *)
-                type branch =  (bool * prop) list
-
-                let is_literal = function
-                    | (true, Var _) -> true
-                    | (false, Var _) -> true
-                    | (true, Not (Var _)) -> true
-                    | (false, Not (Var _)) -> true
-                    | _ -> false
-            
-                (* Check les contradictions *)
-                let branch_closed (br : branch) : bool =
-                    let pos = Hashtbl.create 16 in
-                    let neg = Hashtbl.create 16 in
-                    let record = function
-                        | (true, Var v) -> Hashtbl.replace pos v true
-                        | (false, Var v) -> Hashtbl.replace neg v true
-                        | (true, Not (Var v)) -> Hashtbl.replace neg v true
-                        | (false, Not (Var v)) -> Hashtbl.replace pos v true
-                        | _ -> ()
-                    in
-                    List.iter record br;
-                    let closed = ref false in
-                    Hashtbl.iter (fun v _ -> if (Hashtbl.mem pos v) && (Hashtbl.mem neg v) then closed := true) pos;
-                    !closed
-            \end{lstlisting}
-        \end{tabular}
-      \end{center}
+\begin{frame}{Conclusion}
+    Rappel: On voulait déterminer l'utilité de la méthode des tableaux dans différentes logiques.
+    \begin{itemize}
+        \item Étude de la résolution de SAT et familiarisation avec la méthode 
+        \item Application et discussion à propos des algorithmes utilisant cette méthode
+    \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Code - Méthode des tableaux classique 2}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-            (* La decomposition usuelle faites durant la methode des tableaux *)
-            let decompose_once (br : branch) : branch list option =
-                let rec find_nonlit acc = function
-                    | [] -> None
-                    | x :: xs ->
-                    if is_literal x then find_nonlit (x::acc) xs
-                    else Some (List.rev acc, x, xs)
-                in
-                match find_nonlit [] br with
-                | None -> None
-                | Some (left, (sign, form), right) ->
-                    let rest = left @ right in
-                    let mk b p = (b, p) in
-                    (match sign, form with
-                    | true, And (a,b) ->
-                    Some [ (mk true a) :: (mk true b) :: rest ]
-                    | false, Or (a,b) ->
-                    Some [ (mk false a) :: (mk false b) :: rest ]
-                    | true, Or (a,b) ->
-                    Some [ (mk true a)::rest; (mk true b)::rest ]
-                    | false, And (a,b) ->
-                    Some [ (mk false a)::rest; (mk false b)::rest ]
-                    | true, Not a ->
-                    Some [ (mk false a) :: rest ]
-                    | false, Not a ->
-                    Some [ (mk true a) :: rest ]
-                    | _, _ -> None)
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}
-\end{frame}
+\inputminted[]{ocaml}{Code/Alternee_Tableau.ml}
+\inputminted[]{python}{Code/PropGenerator.py}
+\inputminted[]{ocaml}{Code/quine.ml}
+\inputminted[]{promela}{Code/modulo4.pml}
 
-
-\begin{frame}[fragile]{Code - Méthode des tableaux classique 3}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                (* La Methode des Tableaux en soit *)
-                let satisfiable (phi : prop) : bool =
-                let initial_branch = [ (true, phi) ] in
-                let rec explore_stack stack =
-                    match stack with
-                    | [] -> false
-                    | br :: rest ->
-                    if branch_closed br then explore_stack rest else
-                    match decompose_once br with
-                    | None -> true
-                    | Some new_branches -> explore_stack (new_branches @ rest)
-                    in explore_stack [ initial_branch ]
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}
-\end{frame}
-
-\begin{frame}[fragile]{Code - Alternée 1}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                type formula =
-                    | Atom of (string* bool)
-                    | And of (string*bool) * formula
-                    | Or of (string*bool) * formula
-
-                type branch = 
-                    | Empty
-                    | Node of (formula option * formula * branch);;
-
-                let extract (f:formula option) = match f with
-                    | None ->  Atom("none", false)
-                    | Some t -> t
-
-                let rec print_formula (f:formula) = match f with
-                    | Atom(s, b) -> if b then print_string s else print_string "Not ";print_string s;
-                    | And ((f, b),g) -> if b then print_string f else print_string "Not ";print_string f;print_string " And ";print_formula g
-                    | Or ((f,b),g) -> if b then print_string f else print_string "Not ";print_string f;print_string " Or ";print_formula g;;
-
-                let rec print_branches (b:branch) =
-                    print_string " [";
-                    match b with
-                        | Empty -> ()
-                        | Node(a1, a2, b) -> print_formula@@extract a1;print_string ", ";print_formula a2;print_branches b;
-                    print_string "]";; 
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}   
-\end{frame}
-
-\begin{frame}[fragile]{Code - Alternée 2}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-            let rec formula2branch (f:formula) : branch = match f with
-                | And(a, Or(b, Atom(c))) -> Node(Some(Atom b), Atom a, Node(None, Atom(c), Empty))
-                | And(a, Or(b, c)) ->  Node(Some(Atom b), Atom a, formula2branch c)
-                | And(a, Atom(b)) -> Node(Some (Atom b), Atom a, Empty)
-                | _ -> failwith "Pas alternee"
-              
-            let has_cycle (br:branch) : bool = 
-                let rec aux (br:branch) (d:(string,bool) Hashtbl.t) : bool = match br with
-                | Node(None, Atom (f, b), Empty) -> 
-                  if Hashtbl.mem d f then 
-                    Hashtbl.find d f = b
-                  else
-                    true
-                | Node(Some(Atom(fg, bg)), Atom (fd, bd), Empty) -> 
-                      if Hashtbl.mem d fd then
-                        if Hashtbl.find d fd = bd then
-                          not @@ Hashtbl.mem d fg && Hashtbl.find d fg <> bg
-                        else 
-                          false
-                      else(
-                        Hashtbl.add d fd bd;
-                        not @@ Hashtbl.mem d fg && Hashtbl.find d fg <> bg)
-                | Node(Some (Atom (fg, bg)), Atom (fd, bd), nb) ->
-                  if Hashtbl.mem d fd then
-                    if Hashtbl.find d fd <> bd then
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}   
-\end{frame}
-
-\begin{frame}[fragile]{Code - Alternée 3}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                        false
-                            else
-                            if Hashtbl.mem d fg then
-                                if Hashtbl.find d fg = bg then
-                                true
-                                else
-                                aux nb d
-                            else
-                                true
-                        else
-                            (Hashtbl.add d fd bd;
-                            if Hashtbl.mem d fg then
-                            if Hashtbl.find d fg = bg then
-                                true
-                            else
-                                aux nb d
-                            else
-                            true)
-                        | _ -> failwith "Pas alternee"
-                        in aux br (Hashtbl.create 100);;
-          
-                        let is_satisfiable (f:formula) : bool = let b = formula2branch f in has_cycle b;;
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}   
-\end{frame}
-
-\begin{frame}[fragile]{Code - LTL SAT}
-    \begin{center}
-        \begin{tabular}{c}
-            \begin{lstlisting}
-                        A Ajouter
-            \end{lstlisting}
-        \end{tabular}
-    \end{center}   
-\end{frame}
 \end{document}
